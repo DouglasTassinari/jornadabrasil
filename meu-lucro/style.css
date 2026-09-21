@@ -656,3 +656,32 @@ input:focus, .input-money:focus-within {
 /* Toast: chip escuro fixo — independe do tema (evita branco-sobre-branco
    que ocorria com background:var(--text) no modo escuro). */
 .toast { background: #1F2937; color: #fff; }
+
+/* ============================================================
+   Guia editorial (abaixo do app, visível sem JavaScript)
+   ============================================================ */
+.ml-guide {
+  max-width: 760px;
+  margin: 32px auto 0;
+  padding: 0 16px;
+  color: var(--jb-text, #1F2937);
+  line-height: 1.65;
+}
+.ml-guide h1 { font-size: 1.45rem; line-height: 1.3; margin: 4px 0 14px; letter-spacing: -0.01em; }
+.ml-guide h2 { font-size: 1.1rem; margin: 28px 0 10px; }
+.ml-guide p { margin: 0 0 12px; }
+.ml-guide a { color: var(--jb-secondary, #1E3A8A); }
+.ml-guide__kicker { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--jb-accent-text, #B45309); margin: 0; }
+.ml-guide__origin { padding: 16px 18px; border-left: 4px solid var(--jb-primary, #F97316); background: var(--jb-primary-bg, #FFEDD5); border-radius: 0 12px 12px 0; }
+.ml-guide__sign { display: block; margin-top: 8px; font-size: .9rem; color: var(--jb-text-2, #4B5563); }
+.ml-guide__formula { font-family: var(--jb-font-mono, ui-monospace, monospace); font-size: .92rem; padding: 12px 14px; border: 1px solid var(--jb-border, #E5E7EB); border-radius: 10px; background: var(--jb-surface, #fff); overflow-wrap: anywhere; }
+.ml-guide__table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: .95rem; }
+.ml-guide__table caption { text-align: left; font-size: .85rem; color: var(--jb-text-2, #4B5563); padding-bottom: 6px; }
+.ml-guide__table th, .ml-guide__table td { padding: 8px 10px; border-bottom: 1px solid var(--jb-border, #E5E7EB); text-align: left; font-weight: 400; }
+.ml-guide__table td { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ml-guide__total th, .ml-guide__total td { font-weight: 700; }
+.ml-guide__faq { border: 1px solid var(--jb-border, #E5E7EB); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; background: var(--jb-surface, #fff); }
+.ml-guide__faq summary { cursor: pointer; font-weight: 600; }
+.ml-guide__faq p { margin: 8px 0 2px; }
+.ml-guide__more { margin-top: 20px; }
+.ml-guide__note { font-size: .85rem; color: var(--jb-text-2, #4B5563); }

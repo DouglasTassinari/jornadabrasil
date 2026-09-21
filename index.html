@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="color-scheme" content="light dark">
   <meta name="google-adsense-account" content="ca-pub-1417484877629527">
+  <script>(function(){var p=1;try{var c=JSON.parse(localStorage.getItem('lgpd_consent')||'null');if(c&&c.ads&&c.ts&&Date.now()-c.ts<31536000000)p=0;}catch(e){}(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=p;})();</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1417484877629527" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!--
     =====================================================================
     CONSENT MODE v2 + DEFERRED ANALYTICS
     Deve rodar ANTES de qualquer script de analytics.
-    GTM e Clarity só carregam após idle ou primeira interação do usuário.
+    GA4 e Clarity só carregam após o consentimento de análise.
     =====================================================================
   -->
   <script>
@@ -19,7 +21,7 @@
   // Default: tudo negado até consentimento explícito (LGPD / Consent Mode v2)
   gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','wait_for_update':500});
 
-  // Loader diferido — carrega GA4 + Clarity apenas após idle ou interação
+  // Loader chamado pelo consent.js quando há consentimento de análise
   function _jbLoadAnalytics(){
     if(window._jbALoaded)return;
     window._jbALoaded=1;
@@ -37,14 +39,7 @@
   }
   window._jbLoadAnalytics=_jbLoadAnalytics;
 
-  // Carrega após primeira interação real do usuário
-  ['click','touchstart','keydown','scroll'].forEach(function(e){
-    document.addEventListener(e,function h(){_jbLoadAnalytics();document.removeEventListener(e,h);},{once:true,passive:true});
-  });
-  // Ou após 3s idle
-  'requestIdleCallback'in window
-    ?requestIdleCallback(function(){setTimeout(_jbLoadAnalytics,1);},{timeout:3000})
-    :setTimeout(_jbLoadAnalytics,3000);
+  // GA4 e Clarity só carregam quando o visitante aceita os cookies de análise (consent.js).
   </script>
 
   <title>Ferramentas para decisões de trabalho, carreira e renda — Jornada Brasil</title>
@@ -167,8 +162,8 @@
   </style>
 
   <!-- CSS completo: não-bloqueante (preload + swap para stylesheet) -->
-  <link rel="preload" href="/assets/css/style.css?v=20260628c" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css?v=20260628c">
+  <link rel="preload" href="/assets/css/style.css?v=20260921a" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
   <link rel="stylesheet" href="/shared/jb-account.css">
   <link rel="stylesheet" href="/shared/jb-extras.css"></noscript>
 
@@ -305,6 +300,7 @@
         </a>
       </div>
       <a href="/calculadoras/" class="btn btn-outline" style="margin-top: 8px;">Ver todas as calculadoras →</a>
+      </div>
     </section>
 
     <section class="section-band" aria-labelledby="tools-heading">
@@ -374,20 +370,20 @@
         <div class="blog-card">
           <span class="blog-card-tag">Saúde Financeira</span>
           <h3><a href="/blog/orcamento-50-30-20/">Regra 50-30-20: como organizar seu salário e orçamento em 2026</a></h3>
-          <p class="blog-card-excerpt">50% para necessidades, 30% para desejos e 20% para o futuro. O método simples para o seu salário render o mês inteiro.</p>
-          <span class="blog-card-date"><time datetime="2026-07">Julho/2026</time></span>
-        </div>
-        <div class="blog-card">
-          <span class="blog-card-tag">Salário</span>
-          <h3><a href="/blog/como-calcular-salario-liquido/">Como calcular o salário líquido em 2026: passo a passo com INSS e IRRF</a></h3>
-          <p class="blog-card-excerpt">Do salário bruto ao líquido: INSS progressivo, IRRF com o redutor da Lei 15.270/2025 e os descontos do holerite.</p>
-          <span class="blog-card-date"><time datetime="2026-07">Julho/2026</time></span>
+          <p class="blog-card-excerpt">50% para necessidades, 30% para desejos e 20% para o futuro. O método simples para o seu salário render o mês inteiro — aplicado sobre o líquido, com exemplo prático.</p>
+          <span class="blog-card-date"><time datetime="2026-07-09">Julho/2026</time></span>
         </div>
         <div class="blog-card">
           <span class="blog-card-tag">Saúde Financeira</span>
-          <h3><a href="/blog/reserva-de-emergencia/">Reserva de emergência: quanto guardar, onde deixar e como começar</a></h3>
-          <p class="blog-card-excerpt">De 3 a 6 meses do seu custo de vida, com liquidez diária. O primeiro passo de qualquer plano financeiro, montado do zero.</p>
-          <span class="blog-card-date"><time datetime="2026-06">Junho/2026</time></span>
+          <h3><a href="/blog/reserva-de-emergencia/">Reserva de emergência em 2026: quanto guardar, onde deixar e como começar</a></h3>
+          <p class="blog-card-excerpt">De 3 a 6 meses do seu custo de vida (12 para autônomos), com liquidez diária e baixo risco. O primeiro passo de qualquer plano financeiro, montado do zero mesmo ganhando pouco.</p>
+          <span class="blog-card-date"><time datetime="2026-07-09">Julho/2026</time> · atualizado em <time datetime="2026-09-21">setembro/2026</time></span>
+        </div>
+        <div class="blog-card">
+          <span class="blog-card-tag">Saúde Financeira</span>
+          <h3><a href="/blog/como-sair-das-dividas/">Como sair das dívidas em 2026: bola de neve vs avalanche e renegociação</a></h3>
+          <p class="blog-card-excerpt">Priorize os juros mais caros, escolha um método que você consiga manter e troque dívida cara por barata. O passo a passo para sair do vermelho sem se perder.</p>
+          <span class="blog-card-date"><time datetime="2026-07-09">Julho/2026</time> · atualizado em <time datetime="2026-09-21">setembro/2026</time></span>
         </div>
       </div>
       <a href="/blog/" class="btn btn-outline" style="margin-top: 20px">Ver todos os artigos →</a>
@@ -397,7 +393,7 @@
       <div class="about-section">
         <div>
           <h2 id="about-heading">Por que usar o Jornada Brasil?</h2>
-          <p>O Jornada Brasil é um portal de calculadoras e informações trabalhistas criado para ajudar trabalhadores, profissionais de RH e contadores a entenderem seus direitos e obrigações com mais clareza.</p>
+          <p>O Jornada Brasil reúne calculadoras, tabelas oficiais e guias para quem quer entender o próprio holerite, conferir uma rescisão ou decidir entre propostas — com a regra explicada e a conta à vista, sem precisar confiar em número mágico.</p>
           <ul style="margin: 16px 0; display: flex; flex-direction: column; gap: 10px; padding: 0; list-style: none;">
             <li style="display: flex; gap: 10px; align-items: flex-start;">
               <span style="color: var(--green); font-weight: 700; flex-shrink: 0;" aria-hidden="true">✓</span>
@@ -436,7 +432,11 @@
     </section>
 
     <div class="container" style="margin-bottom: 40px">
-      <div class="disclaimer-box" role="note" aria-label="Aviso legal">
+      <div class="home-author">
+        <picture><source srcset="/assets/img/autor/douglas-tassinari-240.webp" type="image/webp"><img src="/assets/img/autor/douglas-tassinari-240.jpg" alt="Douglas Tassinari" width="76" height="76" loading="lazy" decoding="async"></picture>
+        <p><strong>Feito por <a href="/autor/douglas-tassinari/">Douglas Tassinari</a>, analista de dados.</strong> O Jornada Brasil nasceu de três perguntas de gente próxima — quanto eu vou receber, quanto eu cobro e quanto eu ganhei de verdade. Cada calculadora mostra o cálculo passo a passo, e cada guia traz as fontes oficiais que usou. <a href="/sobre/">Conheça a história →</a></p>
+      </div>
+      <div class="disclaimer-box" role="note" aria-label="Aviso legal" style="margin-top: 20px">
         ⚠️ As informações e calculadoras deste portal têm caráter educativo e informativo e <strong>não substituem orientação jurídica, contábil ou trabalhista profissional</strong>. Os valores são estimativas baseadas nas tabelas oficiais de 2026 e podem diferir da sua folha de pagamento por conta de convenções coletivas, adicionais específicos e arredondamentos da empresa.
       </div>
     </div>
@@ -490,13 +490,14 @@
       </div>
       <div class="footer-disclaimer">
         <p>As informações e calculadoras deste portal têm <strong>caráter educativo e informativo</strong> e <strong>não substituem orientação jurídica, contábil ou trabalhista profissional</strong>. Consulte sempre um especialista para decisões importantes.</p>
-        <p style="margin-top:8px">Jornada Brasil · Tabelas de referência 2026 (Portaria Interministerial MPS/MF · INSS teto R$ 8.475,55 · SM R$ 1.621,00) · Última atualização: agosto/2026</p>
+        <p style="margin-top:8px">Jornada Brasil · Tabelas de referência 2026 (Portaria Interministerial MPS/MF · INSS teto R$ 8.475,55 · SM R$ 1.621,00) · Última atualização: setembro/2026</p>
+        <p class="footer-author">Feito por <a href="/autor/douglas-tassinari/">Douglas Tassinari</a> · <a href="/sobre/">por que o site existe</a></p>
       </div>
     </div>
   </footer>
 
   <!-- Scripts não-críticos: defer para não bloquear renderização -->
-  <script src="/assets/js/consent.js" defer></script>
+  <script src="/assets/js/consent.js?v=20260921a" defer></script>
   <script src="/assets/js/pwa.js" defer></script>
 <script src="/assets/js/contact-widget.js" defer></script>
   <!-- Jornada Brasil — conta (Supabase) -->

@@ -869,7 +869,6 @@ function init() {
     records = loadLocalRecords();
     setState("app");
     render();
-    if (!config) openSettings(true);
   }
 
   // Service worker (PWA)

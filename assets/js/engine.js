@@ -172,6 +172,28 @@ function contarAvos(start,end){
   return Math.min(avos,12);
 }
 
+// Férias proporcionais: 1/12 por mês de serviço contado a partir do início do período
+// aquisitivo (dia a dia, não por mês do calendário) ou fração superior a 14 dias
+// (CLT, art. 146, parágrafo único). O 13º usa contarAvos (meses do calendário).
+function addMeses(d,n){
+  const alvo=new Date(d.getFullYear(), d.getMonth()+n, 1);
+  const dia=Math.min(d.getDate(), diasNoMes(alvo.getFullYear(), alvo.getMonth()));
+  return new Date(alvo.getFullYear(), alvo.getMonth(), dia);
+}
+function contarAvosFerias(start,end){
+  if(!start||!end||end<start) return 0;
+  let avos=0, cur=new Date(start);
+  while(avos<12){
+    const prox=addMeses(start, avos+1);
+    if(addDays(prox,-1)<=end){ avos++; cur=prox; } else break;
+  }
+  if(avos<12){
+    const resto=Math.floor((end-cur)/86400000)+1;
+    if(resto>14) avos++;
+  }
+  return Math.min(avos,12);
+}
+
 function anosCompletos(adm,desl){
   let anos=desl.getFullYear()-adm.getFullYear();
   const m=desl.getMonth()-adm.getMonth();
@@ -200,7 +222,7 @@ function rescisao({ bruto, admissao, desligamento, motivo, aviso='indenizado', t
   const start13=adm>inicioAno?adm:inicioAno;
   const avos13=contarAvos(start13,fimProjecao);
   const startFerias=ultimoAniversario(adm,desl);
-  const avosFerias=contarAvos(startFerias,fimProjecao);
+  const avosFerias=contarAvosFerias(startFerias,fimProjecao);
   const devido={
     sem_justa_causa:{ saldo:true, aviso:'indenizado', d13:true, feriasProp:true, feriasVenc:true, multaPct:0.40, saquePct:1.00, seguro:true },
     pedido:         { saldo:true, aviso:'desconto',   d13:true, feriasProp:true, feriasVenc:true, multaPct:0,    saquePct:0,    seguro:false },
@@ -632,7 +654,7 @@ const CALCS = {
         `Tempo de casa: ${r.anos} ano(s) completo(s) · ${r.totalMeses} meses de vínculo.`,
         `Aviso prévio: 30 + 3 × ${r.anos} = ${r.diasAviso} dias (Lei 12.506/2011, limite de 90).`,
         r.projeta ? `Aviso indenizado projeta o contrato em ${r.diasAviso} dias para contar os avos.` : `Sem projeção de aviso sobre os avos.`,
-        `Avos: 13º conta ${r.avos13}/12 e férias ${r.avosFerias}/12 (mês com 15+ dias = 1 avo).`,
+        `Avos: 13º conta ${r.avos13}/12 (mês do calendário com 15+ dias) e férias ${r.avosFerias}/12 (meses desde o início do período aquisitivo; fração acima de 14 dias conta — CLT, art. 146).`,
       ];
       if(r.detalhe.inssSaldo.valor>0 || r.detalhe.irrfSaldo.valor>0){
         memoria.push(memINSS(r.detalhe.saldoSalario, r.detalhe.inssSaldo, 'INSS (saldo)'));
@@ -718,7 +740,7 @@ const CALCS = {
         {v:'60', t:'60%'},
         {v:'70', t:'70%'},
       ]},
-      {id:'jornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:'220', min:1, max:300, dica:'220h = 44h/semana'},
+      {id:'jornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:'220', min:1, max:300, dica:'220h = 44h/semana; 200h = 40h/semana (Súmula 431 do TST)'},
       {id:'dsr', tipo:'check', rot:'Incluir reflexo no DSR (descanso semanal)', def:true},
       {id:'diasUteis', tipo:'numero', rot:'Dias úteis no mês', def:'25', min:1, max:27, meia:true, showIf:(v)=>v.dsr},
       {id:'domingosFeriados', tipo:'numero', rot:'Domingos + feriados', def:'5', min:1, max:10, meia:true, showIf:(v)=>v.dsr},
@@ -1093,7 +1115,7 @@ const ordem = ['liquido','rescisao','ferias','decimo','horas','noturno','seguro'
 window.RCEngine = {
   r2, nz, calcINSS, calcIRRF, calcRedutor, calcRedutorAnual, irrfTabela,
   salarioLiquido, decimoTerceiro, ferias, horasExtras,
-  parseDate, diasNoMes, addDays, contarAvos, anosCompletos, ultimoAniversario,
+  parseDate, diasNoMes, addDays, contarAvos, contarAvosFerias, anosCompletos, ultimoAniversario,
   rescisao, folhaCompleta, seguroDesemprego, pjVsClt, auxilioDoenca, salarioMaternidade,
   BRL, PCT, memINSS, memIRRF,
   CALCS, ordem,

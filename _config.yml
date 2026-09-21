@@ -1,0 +1,11 @@
+# GitHub Pages (Jekyll): arquivos internos do projeto que não devem ser
+# publicados no site. As páginas continuam sendo HTML estático, sem front matter.
+exclude:
+  - check.py
+  - tools/
+  - supabase-schema.sql
+  - supabase-migration-v2.sql
+  - supabase-migration-v3.sql
+  - meu-lucro/README.md
+  - meu-lucro/config.example.js
+  - meu-lucro/firestore.rules

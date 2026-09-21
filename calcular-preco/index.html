@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="google-adsense-account" content="ca-pub-1417484877629527">
+  <script>(function(){var p=1;try{var c=JSON.parse(localStorage.getItem('lgpd_consent')||'null');if(c&&c.ads&&c.ts&&Date.now()-c.ts<31536000000)p=0;}catch(e){}(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=p;})();</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1417484877629527" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calcular Preço — Calculadora de Preço para Prestadores 2026 | Jornada Brasil</title>
   <meta name="description" content="Descubra quanto cobrar pelo seu serviço sem trabalhar no prejuízo. Calculadora gratuita de orçamento e preço para prestadores autônomos, MEI e freelancers." />
@@ -265,10 +267,12 @@
   <main id="root"></main>
 
   <section class="no-print" style="max-width:960px;margin:36px auto;padding:0 20px;color:#334155;line-height:1.7" aria-labelledby="preco-metodo">
+    <p style="padding:14px 16px;border-left:4px solid #f97316;background:#fff7ed;border-radius:0 10px 10px 0">Esta ferramenta nasceu para o pai de <a href="/autor/douglas-tassinari/">Douglas Tassinari</a>, criador do Jornada Brasil, que não conseguia orçar um serviço de cabeça. <a href="/sobre/">Leia a história do site</a>.</p>
     <h2 id="preco-metodo" style="font-size:1.45rem;color:#0f172a">Como o preço é calculado</h2>
-    <p>Preço não é apenas material mais uma margem. A ferramenta soma mão de obra, ajudante, deslocamento, material e demais custos do serviço. Em seguida, aplica a margem sobre o preço final, evitando o erro comum de calcular lucro apenas sobre o custo.</p>
-    <p style="padding:14px 16px;border-left:4px solid #155e75;background:#ecfeff"><strong>Preço recomendado = custo total ÷ (1 − margem desejada)</strong></p>
-    <p>Uma margem de 30% não significa multiplicar o custo por 1,30. Se o custo for R$ 700,00, o preço que deixa 30% do faturamento como margem é R$ 1.000,00: 700 ÷ 0,70. O resultado também mostra ganho por dia e cenários mínimo, recomendado e premium para você negociar com clareza.</p>
+    <p>A ferramenta parte do que o serviço consome: os dias de execução multiplicados pela diária que você quer ganhar (a mão de obra), mais deslocamento e ajudante. Essa soma é o <strong>preço mínimo</strong> — paga o seu dia, mas não deixa sobra para imprevistos. Sobre ela entra a reserva que você escolhe, e o premium acrescenta 15% ao recomendado. O material é repassado ao cliente pelo custo, sem reserva.</p>
+    <p style="padding:14px 16px;border-left:4px solid #155e75;background:#ecfeff"><strong>Preço recomendado = preço mínimo × (1 + reserva %)</strong></p>
+    <p><strong>Exemplo:</strong> 5 dias a R$ 200 (R$ 1.000) mais R$ 150 de deslocamento dão R$ 1.150 de preço mínimo. Com reserva de 30%, o recomendado fica em R$ 1.495,00 (1.150 × 1,30) e o premium, em R$ 1.719,25 (1.495 × 1,15).</p>
+    <p>Atenção: a reserva é aplicada sobre o custo (markup). 30% sobre o custo equivalem a 23% do preço final. Se você quer que 30% do que recebe seja margem, informe 42,9% (porque 0,30 ÷ 0,70 = 0,429). Veja a diferença entre <a href="/blog/como-calcular-margem-de-lucro/">margem e markup</a>.</p>
     <h2 style="font-size:1.3rem;color:#0f172a;margin-top:28px">O que conferir antes de enviar o orçamento</h2>
     <ul><li>quantidade, unidade, complexidade e prazo do serviço;</li><li>custos indiretos que não aparecem no material, como transporte, ferramentas e retrabalho;</li><li>impostos e taxas da sua atividade;</li><li>validade da proposta, forma de pagamento e o que não está incluído;</li><li>reserva para garantia e imprevistos, quando fizer sentido.</li></ul>
     <p>O cálculo é uma base comercial, não uma tabela obrigatória. Mercado, especialização, risco, demanda e escopo alteram o preço. Registre as premissas no orçamento para que cliente e prestador comparem a mesma entrega.</p>
@@ -311,7 +315,7 @@
         </ul>
       </nav>
     </div>
-    <p class="jb-footer__legal">Calcular Preço faz parte da plataforma Jornada Brasil · Caráter educativo — não substitui orientação profissional.</p>
+    <p class="jb-footer__legal">Calcular Preço faz parte da plataforma Jornada Brasil · Caráter educativo — não substitui orientação profissional. · Feito por <a href="/autor/douglas-tassinari/">Douglas Tassinari</a></p>
   </footer>
 
   <!-- O JSX abaixo NÃO é executado direto pelo navegador: é transformado pelo
@@ -809,7 +813,7 @@
               <Campo label="Deslocamento por dia">
                 <NumInput value={prof.deslocamentoDia} onChange={(v) => setP("deslocamentoDia", v)} prefix="R$" />
               </Campo>
-              <Campo label="Margem / reserva">
+              <Campo label="Reserva sobre o custo" hint="30% sobre o custo = 23% do preço final">
                 <NumInput value={prof.margem} onChange={(v) => setP("margem", v)} suffix="%" />
               </Campo>
               <div className="col-span-2">
@@ -1352,7 +1356,7 @@
   <script src="/shared/jb-account.js" defer></script>
   <script src="/shared/jb-plano.js" defer></script>
   <script src="persist.js" defer></script>
-  <script src="/assets/js/consent.js" defer></script>
+  <script src="/assets/js/consent.js?v=20260921a" defer></script>
   <script src="/assets/js/nav.js?v=20260628c" defer></script>
 </body>
 </html>

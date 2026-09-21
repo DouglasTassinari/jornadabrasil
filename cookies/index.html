@@ -11,6 +11,8 @@
   <meta charset="UTF-8">
   <meta name="color-scheme" content="light dark">
   <meta name="google-adsense-account" content="ca-pub-1417484877629527">
+  <script>(function(){var p=1;try{var c=JSON.parse(localStorage.getItem('lgpd_consent')||'null');if(c&&c.ads&&c.ts&&Date.now()-c.ts<31536000000)p=0;}catch(e){}(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=p;})();</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1417484877629527" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Política de Cookies — Jornada Brasil</title>
   <meta name="description" content="Política de Cookies do Jornada Brasil: quais cookies usamos, para que servem e como gerenciar suas preferências de privacidade.">
@@ -33,7 +35,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
-  <link rel="stylesheet" href="/assets/css/style.css?v=20260628c">
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
   <link rel="stylesheet" href="/shared/jb-account.css">
   <link rel="stylesheet" href="/shared/jb-extras.css">
 <meta property="og:url" content="https://jornadabrasil.com.br/cookies/">
@@ -65,7 +67,7 @@
       <div class="inst-page" style="max-width: 800px">
         <h1>Política de Cookies</h1>
         <p class="lead">Esta página explica quais cookies o Jornada Brasil utiliza, para que servem e como você pode gerenciar suas preferências, em conformidade com a LGPD (Lei 13.709/2018).</p>
-        <p style="font-size: .85rem; color: var(--text-3)">Última atualização: agosto/2026</p>
+        <p style="font-size: .85rem; color: var(--text-3)">Última atualização: setembro/2026</p>
 
         <h2>O que são cookies?</h2>
         <p>Cookies são pequenos arquivos de texto armazenados no seu dispositivo quando você visita um site. Servem para lembrar preferências, analisar o tráfego e personalizar a experiência. Você pode controlar e excluir cookies nas configurações do seu navegador.</p>
@@ -80,44 +82,72 @@
               <tr>
                 <td><code>lgpd_consent</code></td>
                 <td>Armazenamento local essencial</td>
-                <td>Armazena a preferência de consentimento do usuário (aceitar ou recusar cookies opcionais)</td>
+                <td>Guarda a sua escolha no aviso de cookies (aceitar ou recusar os opcionais)</td>
                 <td>365 dias</td>
                 <td>Não necessário</td>
               </tr>
               <tr>
+                <td><code>sb-…-auth-token</code></td>
+                <td>Armazenamento local essencial</td>
+                <td>Mantém a sessão da conta opcional (login Google), só para quem entra na conta</td>
+                <td>Até sair da conta</td>
+                <td>Não necessário</td>
+              </tr>
+              <tr>
                 <td><code>_ga</code></td>
-                <td>Analytics</td>
-                <td>Google Analytics 4 — identifica sessões únicas de usuário para análise de tráfego</td>
+                <td>Análise</td>
+                <td>Google Analytics 4 — distingue visitantes para medir o tráfego</td>
                 <td>2 anos</td>
-                <td>Sim (obrigatório)</td>
+                <td>Sim</td>
               </tr>
               <tr>
                 <td><code>_ga_*</code></td>
-                <td>Analytics</td>
-                <td>Google Analytics 4 — mantém o estado da sessão para análise de páginas visitadas</td>
+                <td>Análise</td>
+                <td>Google Analytics 4 — mantém o estado da sessão</td>
                 <td>2 anos</td>
-                <td>Sim (obrigatório)</td>
+                <td>Sim</td>
               </tr>
               <tr>
-                <td><code>_gcl_au</code></td>
-                <td>Publicidade</td>
-                <td>Google AdSense — rastreia conversões de anúncios e mede o desempenho publicitário</td>
-                <td>90 dias</td>
-                <td>Sim (obrigatório)</td>
+                <td><code>_clck</code></td>
+                <td>Análise</td>
+                <td>Microsoft Clarity — identifica o navegador de forma anônima entre visitas</td>
+                <td>1 ano</td>
+                <td>Sim</td>
               </tr>
               <tr>
-                <td><code>_gcl_aw</code></td>
-                <td>Publicidade</td>
-                <td>Google Ads — rastreia conversões de cliques em anúncios do Google</td>
-                <td>90 dias</td>
-                <td>Sim (obrigatório)</td>
+                <td><code>_clsk</code></td>
+                <td>Análise</td>
+                <td>Microsoft Clarity — agrupa as páginas vistas numa mesma sessão</td>
+                <td>1 dia</td>
+                <td>Sim</td>
               </tr>
               <tr>
-                <td><code>IDE</code></td>
+                <td><code>__gads</code></td>
                 <td>Publicidade</td>
-                <td>Google — identifica usuários para personalização de anúncios (DoubleClick)</td>
+                <td>Google AdSense — exibição, limite de frequência e medição de anúncios</td>
                 <td>13 meses</td>
-                <td>Sim (obrigatório)</td>
+                <td>Sim</td>
+              </tr>
+              <tr>
+                <td><code>__gpi</code></td>
+                <td>Publicidade</td>
+                <td>Google AdSense — exibição e medição de anúncios</td>
+                <td>13 meses</td>
+                <td>Sim</td>
+              </tr>
+              <tr>
+                <td><code>__eoi</code></td>
+                <td>Publicidade</td>
+                <td>Google AdSense — segurança e prevenção de fraude em anúncios</td>
+                <td>6 meses</td>
+                <td>Sim</td>
+              </tr>
+              <tr>
+                <td><code>IDE (doubleclick.net)</code></td>
+                <td>Publicidade</td>
+                <td>Google — personalização e medição de anúncios; definido pelo domínio do Google</td>
+                <td>13 meses</td>
+                <td>Sim</td>
               </tr>
             </tbody>
           </table>
@@ -136,7 +166,7 @@
         </div>
 
         <h2>Google Consent Mode v2</h2>
-        <p>O Jornada Brasil implementa o Google Consent Mode v2. Antes do consentimento, os sinais de publicidade e análise são bloqueados por padrão (<code>denied</code>). Apenas após o aceite do usuário os scripts de Analytics e AdSense são carregados e os sinais são atualizados para <code>granted</code>.</p>
+        <p>O Jornada Brasil implementa o Google Consent Mode v2. Antes do consentimento, os sinais de publicidade e análise ficam bloqueados por padrão (<code>denied</code>). O código do AdSense é carregado nas páginas com as solicitações de anúncio pausadas: os anúncios só são pedidos depois que você aceita os cookies de publicidade. O Google Analytics e o Microsoft Clarity só carregam depois que você aceita os cookies de análise. Se recusar, o site funciona normalmente, sem esses cookies.</p>
 
         <h2>Contato</h2>
         <p>Para dúvidas sobre cookies e privacidade, use o botão <strong>Contato e sugestões</strong> no canto inferior direito da tela e selecione o assunto <em>“Privacidade e dados”</em>.</p>
@@ -151,10 +181,10 @@
         <div class="footer-links"><h4>Portal</h4><ul><li><a href="/calcular-preco/">Calcular Preço</a></li><li><a href="/meu-lucro/">Meu Lucro</a></li><li><a href="/sobre/">Sobre</a></li><li><a href="/privacidade/">Privacidade</a></li><li><a href="/termos/">Termos</a></li></ul></div>
         <div class="footer-refs"><h4>Fontes</h4><ul><li><a href="https://www.receita.fazenda.gov.br" target="_blank" rel="noopener">Receita Federal</a></li></ul></div>
       </div>
-      <div class="footer-disclaimer"><p>Caráter educativo — não substitui orientação profissional. Jornada Brasil · junho/2026</p></div>
+      <div class="footer-disclaimer"><p>Caráter educativo — não substitui orientação profissional. Jornada Brasil · junho/2026</p><p class="footer-author">Feito por <a href="/autor/douglas-tassinari/">Douglas Tassinari</a> · <a href="/sobre/">por que o site existe</a></p></div>
     </div>
   </footer>
-  <script src="/assets/js/consent.js" defer></script>
+  <script src="/assets/js/consent.js?v=20260921a" defer></script>
   <script src="/assets/js/pwa.js" defer></script>
 <script src="/assets/js/contact-widget.js" defer></script>
   <!-- Jornada Brasil — conta (Supabase) -->

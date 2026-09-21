@@ -4,7 +4,7 @@
   <!-- Home -->
   <url>
     <loc>https://jornadabrasil.com.br/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,13 +12,13 @@
   <!-- Tabelas de referência -->
   <url>
     <loc>https://jornadabrasil.com.br/tabelas/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/mapa-do-site/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -26,25 +26,25 @@
   <!-- Catálogo -->
   <url>
     <loc>https://jornadabrasil.com.br/calculadoras/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/planejador-financeiro/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/comparar-propostas/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/guia-demissao/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -52,13 +52,13 @@
   <!-- Ferramentas para autônomos -->
   <url>
     <loc>https://jornadabrasil.com.br/calcular-preco/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/meu-lucro/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -66,67 +66,67 @@
   <!-- Calculadoras -->
   <url>
     <loc>https://jornadabrasil.com.br/pj-vs-clt/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/salario-liquido/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/rescisao/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/ferias/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/decimo-terceiro/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/horas-extras/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/adicional-noturno/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/seguro-desemprego/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/auxilio-doenca/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/salario-maternidade/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/imposto-de-renda/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -134,37 +134,37 @@
   <!-- Blog — Saúde Financeira Pessoal -->
   <url>
     <loc>https://jornadabrasil.com.br/blog/orcamento-50-30-20/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/reserva-de-emergencia/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/financas-do-autonomo/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-sair-das-dividas/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/planejar-13-e-ferias/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/salario-minimo-2026/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -172,187 +172,187 @@
   <!-- Blog -->
   <url>
     <loc>https://jornadabrasil.com.br/blog/demissao-por-acordo/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/fgts-saque-aniversario/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/vale-transporte/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/inss-autonomo/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/quanto-cobrar-por-hora/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-calcular-margem-de-lucro/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-precificar-servico/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/quanto-ganha-motorista-aplicativo/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-calcular-salario-liquido/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/demissao-sem-justa-causa/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/clt-vs-pj/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/inss-tabela-2026/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/irrf-tabela-2026/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-calcular-rescisao/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-funciona-aviso-previo/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-calcular-ferias/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-calcular-horas-extras/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-calcular-dsr/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/como-funciona-fgts/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/direitos-do-trabalhador-clt/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/jornada-de-trabalho/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/contrato-de-experiencia/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/banco-de-horas/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/decimo-terceiro-salario/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/licenca-maternidade/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/auxilio-doenca-inss/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/seguro-desemprego-como-funciona/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/insalubridade/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/periculosidade/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/blog/trabalho-noturno/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -360,44 +360,50 @@
   <!-- Institucionais -->
   <url>
     <loc>https://jornadabrasil.com.br/sobre/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://jornadabrasil.com.br/autor/douglas-tassinari/</loc>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/contato/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/privacidade/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/termos/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/cookies/</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://jornadabrasil.com.br/metodologia/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/politica-editorial/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

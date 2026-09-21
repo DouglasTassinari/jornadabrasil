@@ -43,6 +43,7 @@ const RC = {
     // Carrega scripts de terceiros conforme consentimento
     if (prefs.analytics) RC.loadAnalytics();
     if (prefs.ads) RC.loadAds();
+    else RC.pauseAds();
   },
 
   acceptAll: function() {
@@ -146,14 +147,16 @@ const RC = {
     }
   },
 
+  // O código do AdSense fica no <head> das páginas com conteúdo, com as
+  // requisições de anúncio pausadas (pauseAdRequests=1) até o consentimento.
+  // Páginas sem o código (conta, erro, redirecionamentos) não exibem anúncios.
   loadAds: function() {
-    if (window._rcAdsLoaded) return;
-    window._rcAdsLoaded = true;
-    const s = document.createElement('script');
-    s.async = true;
-    s.crossOrigin = 'anonymous';
-    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1417484877629527';
-    document.head.appendChild(s);
+    if (!document.querySelector('script[src*="adsbygoogle.js"]')) return;
+    (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
+  },
+
+  pauseAds: function() {
+    (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;
   }
 };
 

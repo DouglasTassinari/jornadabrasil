@@ -2,7 +2,7 @@
    Meu Lucro — Service Worker (PWA offline)
    ============================================================ */
 
-const CACHE = "meu-lucro-v3";
+const CACHE = "meu-lucro-v4";
 
 const ASSETS = [
   "./",
@@ -10,15 +10,10 @@ const ASSETS = [
   "./style.css",
   "./script.js",
   "./auth.js",
-  "./config.js",
-  "./config.example.js",
   "./manifest.json",
   "./icon.svg",
   "./icon-maskable.svg",
   "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js",
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js",
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js",
 ];
 
 // Instala e pré-armazena os arquivos do app.

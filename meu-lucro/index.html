@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="google-adsense-account" content="ca-pub-1417484877629527">
+  <script>(function(){var p=1;try{var c=JSON.parse(localStorage.getItem('lgpd_consent')||'null');if(c&&c.ads&&c.ts&&Date.now()-c.ts<31536000000)p=0;}catch(e){}(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=p;})();</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1417484877629527" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#1E3A8A" />
   <meta name="description" content="Controle o lucro real de cada dia como motorista de aplicativo. Desconte combustível e desgaste do veículo e descubra quanto sobra de verdade. App gratuito." />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260628c" />
+  <link rel="stylesheet" href="style.css?v=20260921a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
@@ -61,7 +63,7 @@
         "mainEntity": [
           { "@type": "Question", "name": "Como calcular o lucro real de motorista de aplicativo?", "acceptedAnswer": { "@type": "Answer", "text": "Pegue a receita do dia e subtraia o combustível, outros gastos e o desgaste do veículo (km rodados multiplicados pelo custo por km). O que sobra é o lucro líquido real. O app Meu Lucro faz esse cálculo automaticamente a cada dia registrado." } },
           { "@type": "Question", "name": "O que é o custo por km?", "acceptedAnswer": { "@type": "Answer", "text": "É o gasto invisível de rodar: pneus, óleo, seguro, IPVA, manutenção e depreciação do carro. Uma referência comum é R$ 0,25 por km, mas você pode ajustar conforme o seu veículo." } },
-          { "@type": "Question", "name": "Os dados ficam salvos?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Criando uma conta gratuita, seu histórico fica salvo na nuvem e sincronizado entre celular e computador. Também é possível usar em modo local, sem cadastro, com os dados apenas naquele aparelho." } }
+          { "@type": "Question", "name": "Os dados ficam salvos?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Sem cadastro, os registros ficam salvos no navegador do aparelho que você usa. Entrando com a conta Google no topo da página, eles passam a ser sincronizados entre celular e computador." } }
         ]
       }
     ]
@@ -182,9 +184,9 @@
 
   <main class="container">
 
-    <!-- Aviso de modo local (Firebase não configurado) -->
+    <!-- Aviso de armazenamento local (some quando a conta Google sincroniza) -->
     <div class="local-banner" id="localBanner" hidden>
-      <span>⚠️ Modo local: os dados ficam só neste aparelho. Configure o Firebase para sincronizar na nuvem (veja o README).</span>
+      <span>Seus registros ficam salvos neste aparelho. Para sincronizar entre celular e computador, entre com sua conta Google no topo da página.</span>
     </div>
 
     <!-- ====================== HOJE ====================== -->
@@ -376,6 +378,48 @@
     </footer>
   </main>
 
+  <!-- ====================== GUIA (conteúdo editorial, visível sem JavaScript) ====================== -->
+  <article class="ml-guide no-print" aria-labelledby="ml-guide-title">
+    <p class="ml-guide__kicker">Por que esta ferramenta existe</p>
+    <h1 id="ml-guide-title">Faturamento não é lucro: quanto sobra de verdade para o motorista de aplicativo</h1>
+    <p class="ml-guide__origin">O Meu Lucro nasceu de uma conversa com o meu irmão. Motorista de aplicativo, ele achava que faturar R$ 200 num dia era ganhar R$ 200. Quando colocamos no papel o combustível e o desgaste do carro, o número mudou — e mudou bastante. Esta ferramenta faz essa conta todos os dias, para qualquer motorista. <span class="ml-guide__sign">— <a href="/autor/douglas-tassinari/">Douglas Tassinari</a>, criador do Jornada Brasil</span></p>
+
+    <h2>Como o lucro do dia é calculado</h2>
+    <p class="ml-guide__formula">Lucro do dia = faturamento − combustível − outros gastos − (km rodados × custo por km)</p>
+    <p><strong>Exemplo:</strong> um dia com R$ 280,00 de faturamento, 190 km rodados, R$ 95,00 de combustível e R$ 12,00 de outros gastos. Com custo de R$ 0,25 por km, o desgaste do carro é 190 × 0,25 = R$ 47,50.</p>
+    <table class="ml-guide__table">
+      <caption>Exemplo de um dia de trabalho</caption>
+      <tbody>
+        <tr><th scope="row">Faturamento no aplicativo</th><td>R$ 280,00</td></tr>
+        <tr><th scope="row">(−) Combustível</th><td>R$ 95,00</td></tr>
+        <tr><th scope="row">(−) Outros gastos</th><td>R$ 12,00</td></tr>
+        <tr><th scope="row">(−) Desgaste: 190 km × R$ 0,25</th><td>R$ 47,50</td></tr>
+        <tr class="ml-guide__total"><th scope="row">Lucro real do dia</th><td>R$ 125,50</td></tr>
+      </tbody>
+    </table>
+    <p>Dos R$ 280,00 que aparecem no aplicativo, R$ 125,50 são lucro — cerca de 45% do faturamento. O resto já tem dono: o posto, a oficina, a seguradora e a desvalorização do carro.</p>
+
+    <h2>O que entra no custo por km</h2>
+    <p>O custo por km é o que o carro consome a cada quilômetro além do combustível: pneus, troca de óleo e filtros, revisões, seguro, IPVA e licenciamento, e a depreciação — o valor que o carro perde com o uso. Ele não aparece no extrato do dia, mas chega de uma vez quando o pneu acaba ou a revisão vence.</p>
+    <p>O app começa com R$ 0,25 por km, mas o melhor é calcular o do seu carro:</p>
+    <p class="ml-guide__formula">Custo por km = gastos do ano com o carro (sem combustível) ÷ km rodados no ano</p>
+    <p><strong>Exemplo:</strong> R$ 2.400 de pneus e revisões, R$ 1.800 de seguro, R$ 1.500 de IPVA e licenciamento e R$ 6.000 de depreciação estimada somam R$ 11.700 no ano. Rodando 50.000 km, o custo fica em R$ 0,23 por km (11.700 ÷ 50.000). Ajuste o valor em <em>Configurações</em>, no ícone de engrenagem.</p>
+
+    <h2>Um hábito que evita susto</h2>
+    <p>Separe o valor do desgaste de cada dia numa conta à parte. Em vez de o dinheiro do pneu virar gasto do mês, ele fica guardado e já existe quando a manutenção chega. Com alguns dias registrados, o resumo do mês mostra a média líquida por dia — é esse número que diz se a meta é realista.</p>
+
+    <h2>Onde ficam os seus dados</h2>
+    <p>Sem cadastro, os registros ficam salvos no navegador deste aparelho. Entrando com a conta Google no topo da página, eles passam a ser sincronizados entre celular e computador. Os valores não são mostrados a outros usuários, e o relatório do mês pode ser baixado em PDF. Veja a <a href="/privacidade/">Política de Privacidade</a>.</p>
+
+    <h2>Perguntas frequentes</h2>
+    <details class="ml-guide__faq"><summary>Como calcular o lucro real de motorista de aplicativo?</summary><p>Pegue o faturamento do dia e subtraia o combustível, os outros gastos e o desgaste do veículo (km rodados multiplicados pelo custo por km). O que sobra é o lucro real. O Meu Lucro faz essa conta a cada dia registrado.</p></details>
+    <details class="ml-guide__faq"><summary>O que é o custo por km?</summary><p>É o gasto invisível de rodar: pneus, óleo, seguro, IPVA, manutenção e depreciação do carro. O app sugere R$ 0,25 por km como ponto de partida, e você pode ajustar para o valor do seu veículo.</p></details>
+    <details class="ml-guide__faq"><summary>Os dados ficam salvos?</summary><p>Sim. Sem cadastro, ficam no navegador do aparelho que você usa. Entrando com a conta Google no topo da página, passam a ser sincronizados entre celular e computador.</p></details>
+
+    <p class="ml-guide__more">Continue a conta: <a href="/blog/quanto-ganha-motorista-aplicativo/">quanto ganha um motorista de aplicativo</a>, <a href="/blog/inss-autonomo/">INSS do autônomo</a>, <a href="/blog/financas-do-autonomo/">finanças do autônomo e MEI</a> e o <a href="/pj-vs-clt/">comparador PJ × CLT</a>.</p>
+    <p class="ml-guide__note">Os valores do exemplo são ilustrativos. O custo por km do seu carro depende do modelo, do uso e da região. Conteúdo educativo, sem recomendação financeira individual.</p>
+  </article>
+
   <!-- ====================== RODAPÉ DA PLATAFORMA (Jornada Brasil) ====================== -->
   <footer class="jb-footer no-print">
     <div class="jb-footer__in">
@@ -408,7 +452,7 @@
         </ul>
       </nav>
     </div>
-    <p class="jb-footer__legal">Meu Lucro faz parte da plataforma Jornada Brasil · Caráter educativo — não substitui orientação profissional.</p>
+    <p class="jb-footer__legal">Meu Lucro faz parte da plataforma Jornada Brasil · Caráter educativo — não substitui orientação profissional. · Feito por <a href="/autor/douglas-tassinari/">Douglas Tassinari</a></p>
   </footer>
 
   <!-- ====================== MODAL CONFIGURAÇÃO ====================== -->
@@ -527,13 +571,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <!-- ====================== SCRIPTS ====================== -->
-  <!-- Firebase (SDK compat) -->
-  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <!-- Suas chaves do Firebase (copie config.example.js para config.js e preencha) -->
-  <script defer src="config.js" onerror="window.__noFirebaseConfig=true"></script>
-  <!-- Inicialização do Firebase + ações de autenticação -->
+  <!-- auth.js mantém window.FB desligado (modo local); a nuvem é a conta do portal -->
   <script defer src="auth.js"></script>
   <!-- Geração de PDF -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -545,8 +583,8 @@
   <script defer src="/shared/jb-extras.js"></script>
   <script defer src="/shared/jb-plano.js"></script>
   <!-- App -->
-  <script defer src="script.js"></script>
-  <script src="/assets/js/consent.js" defer></script>
+  <script defer src="script.js?v=20260921a"></script>
+  <script src="/assets/js/consent.js?v=20260921a" defer></script>
   <script src="/assets/js/nav.js?v=20260628c" defer></script>
 </body>
 </html>
