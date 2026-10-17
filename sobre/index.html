@@ -36,8 +36,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
-  <link rel="stylesheet" href="/shared/jb-account.css">
-  <link rel="stylesheet" href="/shared/jb-extras.css">
+  <link rel="stylesheet" href="/shared/jb-extras.css?v=20261016a">
 <meta property="og:url" content="https://jornadabrasil.com.br/sobre/">
 <meta property="og:title" content="Sobre o Jornada Brasil: quem faz e por que o site existe">
 <meta property="og:description" content="Conheça o Jornada Brasil — calculadoras trabalhistas, precificação de serviços e controle de lucro em um só portal.">
@@ -53,7 +52,7 @@
 <meta name="twitter:image" content="https://jornadabrasil.com.br/assets/img/og-image.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-  {"@type":"AboutPage","url":"https://jornadabrasil.com.br/sobre/","name":"Sobre o Jornada Brasil","inLanguage":"pt-BR","dateModified":"2026-09-21","mainEntity":{"@id":"https://jornadabrasil.com.br/#organization"}},
+  {"@type":"AboutPage","url":"https://jornadabrasil.com.br/sobre/","name":"Sobre o Jornada Brasil","inLanguage":"pt-BR","dateModified":"2026-10-16","mainEntity":{"@id":"https://jornadabrasil.com.br/#organization"}},
   {"@type":"Organization","@id":"https://jornadabrasil.com.br/#organization","name":"Jornada Brasil","url":"https://jornadabrasil.com.br/","logo":"https://jornadabrasil.com.br/assets/img/logo.png","description":"Site gratuito sobre trabalho, direitos e renda: calculadoras com as tabelas oficiais de 2026, guias e ferramentas para autônomos.","foundingDate":"2026-06-14","founder":{"@id":"https://jornadabrasil.com.br/autor/douglas-tassinari/#person"},"knowsAbout":["Direito do trabalho","Cálculos trabalhistas","INSS","Imposto de Renda","FGTS","Precificação de serviços","Finanças pessoais"],"contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://jornadabrasil.com.br/contato/"}},
   {"@type":"Person","@id":"https://jornadabrasil.com.br/autor/douglas-tassinari/#person","name":"Douglas Tassinari","url":"https://jornadabrasil.com.br/autor/douglas-tassinari/","image":"https://jornadabrasil.com.br/assets/img/autor/douglas-tassinari-480.jpg","jobTitle":"Analista de dados","sameAs":["https://douglastassinari.github.io/","https://www.linkedin.com/in/douglastassinari/","https://github.com/DouglasTassinari"]},
   {"@type":"BreadcrumbList","itemListElement":[
@@ -152,6 +151,7 @@
 
         <h2>Histórico de mudanças e correções</h2>
         <ul class="changelog">
+          <li><time datetime="2026-10-16">16 de outubro de 2026</time>Fim do login com Google: o site não tem mais cadastro. Favoritos, histórico e orçamentos continuam funcionando e ficam salvos só no aparelho de quem usa.</li>
           <li><time datetime="2026-09-21">21 de setembro de 2026</time>Revisão jurídica dos 36 guias, com correções em 28 deles — por exemplo: o auxílio-doença não sofre desconto de INSS; o atraso no pagamento das férias não gera mais a dobra desde 2022 (STF, ADPF 501); a rescisão antecipada do contrato de experiência dá direito à multa de 40% do FGTS. A calculadora de rescisão passou a contar as férias proporcionais a partir do início do período aquisitivo (CLT, art. 146), e as datas dos guias passaram a mostrar a publicação e a revisão reais.</li>
           <li><time datetime="2026-08-27">27 de agosto de 2026</time>Novas ferramentas: comparador de propostas, guia de demissão e planejador financeiro.</li>
           <li><time datetime="2026-08-04">4 de agosto de 2026</time>Imposto de renda de 2026 pela Lei 15.270/2025 e reflexo das horas extras e do adicional noturno no DSR dentro do cálculo do salário líquido.</li>
@@ -232,13 +232,9 @@
   <script src="/assets/js/consent.js?v=20260921a" defer></script>
   <script src="/assets/js/pwa.js" defer></script>
 <script src="/assets/js/contact-widget.js" defer></script>
-  <!-- Jornada Brasil — conta (Supabase) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script defer src="/shared/jb-supabase.js"></script>
-  <script defer src="/shared/jb-data.js"></script>
-  <script defer src="/shared/jb-account.js"></script>
-  <script defer src="/shared/jb-extras.js"></script>
-  <script defer src="/shared/jb-plano.js"></script>
-  <script src="/assets/js/nav.js?v=20260628c" defer></script>
+  <!-- Jornada Brasil — favoritos e histórico (salvos neste aparelho) -->
+  <script defer src="/shared/jb-data.js?v=20261016a"></script>
+  <script defer src="/shared/jb-extras.js?v=20261016a"></script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
 </body>
 </html>

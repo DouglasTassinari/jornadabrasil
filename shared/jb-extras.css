@@ -30,22 +30,6 @@
 }
 .jb-toast.err { background: #BB3B2A; }
 
-/* CTA de cadastro nos artigos */
-.jb-article-cta {
-  margin: 28px 0; padding: 22px 24px; border-radius: 14px;
-  border: 1px solid var(--primary-border, #FED7AA);
-  background: var(--primary-bg, #FFF7ED);
-}
-.jb-article-cta h3 { margin: 0 0 6px; font-size: 1.1rem; color: var(--text, #1F2937); }
-.jb-article-cta p { margin: 0 0 14px; color: var(--text-2, #6B7280); font-size: .94rem; }
-.jb-article-cta .jb-cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.jb-article-cta .jb-cta-btn {
-  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
-  font: 600 .9rem Inter, system-ui, sans-serif; padding: 10px 18px; border-radius: 10px; cursor: pointer; border: none;
-}
-.jb-cta-btn.primary { background: #F97316; color: #fff; }
-.jb-cta-btn.ghost { background: transparent; color: var(--text, #1F2937); border: 1px solid var(--border, #E5E7EB); }
-
 /* Bloco "Continue lendo" gerado automaticamente */
 .jb-related-articles { margin: 28px 0; }
 .jb-related-articles h2 { font-size: 1.15rem; margin: 0 0 12px; }

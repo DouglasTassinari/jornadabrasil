@@ -367,7 +367,6 @@ function handleSave(e) {
     else records.push(merged);
     saveLocalRecords();
     render();
-    mlCloudUpsert(merged);
   }
 
   resetForm();
@@ -410,7 +409,6 @@ function handleEditSave(e) {
     Object.assign(r, updated);
     saveLocalRecords();
     render();
-    mlCloudUpsert(updated);
   }
   hideModal("editModal");
   toast("Registro atualizado ✓");
@@ -426,7 +424,6 @@ function handleEditDelete() {
     records = records.filter((x) => x.id !== id);
     saveLocalRecords();
     render();
-    mlCloudDelete(id);
   }
   hideModal("editModal");
   toast("Registro excluído");
@@ -880,82 +877,3 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
-
-/* ============================================================
-   Sincronização com a nuvem (Supabase — Jornada Brasil)
-   Mantém o LocalStorage como store de trabalho e espelha os
-   registros na conta do usuário (RLS por user_id). Ao logar,
-   puxa a nuvem e envia os registros locais ainda não salvos.
-   ============================================================ */
-function mlLogged() { return !!(window.JBAuth && window.JBAuth.user && window.jbSupa); }
-
-function mlMapRow(r) {
-  const wear = (r.km || 0) * costKm();
-  const profit = (r.revenue || 0) - (r.fuel || 0) - (r.other || 0) - wear;
-  return {
-    user_id: window.JBAuth.user.id,
-    client_id: String(r.id),
-    data: r.date,
-    receita: r.revenue || 0,
-    combustivel: r.fuel || 0,
-    manutencao: wear,
-    despesas: r.other || 0,
-    km: r.km || 0,
-    lucro: profit,
-    meta: (config && config.dailyGoal) || 0,
-  };
-}
-function mlRowToLocal(row) {
-  return {
-    id: row.client_id || row.id,
-    date: row.data,
-    revenue: +row.receita || 0,
-    km: +row.km || 0,
-    fuel: +row.combustivel || 0,
-    other: +row.despesas || 0,
-  };
-}
-function mlCloudUpsert(r) {
-  if (!mlLogged() || !r) return;
-  window.jbSupa
-    .from("registros_meu_lucro")
-    .upsert(mlMapRow(r), { onConflict: "user_id,client_id" })
-    .then((res) => { if (res.error) console.warn("[Meu Lucro] upsert nuvem:", res.error.message); });
-}
-function mlCloudDelete(id) {
-  if (!mlLogged() || !id) return;
-  window.jbSupa
-    .from("registros_meu_lucro")
-    .delete()
-    .eq("user_id", window.JBAuth.user.id)
-    .eq("client_id", String(id))
-    .then((res) => { if (res.error) console.warn("[Meu Lucro] delete nuvem:", res.error.message); });
-}
-let mlPulled = false;
-function mlCloudPullMerge() {
-  if (!mlLogged() || mlPulled) return;
-  mlPulled = true;
-  window.jbSupa.from("registros_meu_lucro").select("*").then((res) => {
-    if (res.error) { console.warn("[Meu Lucro] pull nuvem:", res.error.message); mlPulled = false; return; }
-    const cloud = res.data || [];
-    const byCid = {};
-    cloud.forEach((row) => { byCid[row.client_id || row.id] = row; });
-    const local = Array.isArray(records) ? records : [];
-    const localOnly = local.filter((r) => !byCid[String(r.id)]);
-    localOnly.forEach((r) => mlCloudUpsert(r)); // envia o que só existe local
-    const merged = cloud.map(mlRowToLocal).concat(localOnly);
-    const seen = {}; const out = [];
-    merged.forEach((r) => { if (!seen[r.id]) { seen[r.id] = 1; out.push(r); } });
-    records = out;
-    saveLocalRecords();
-    if (typeof render === "function") render();
-    const lb = document.getElementById("localBanner"); if (lb) lb.hidden = true;
-    if (window.jbTrack) jbTrack("ml_sync_cloud", { dias: out.length });
-  });
-}
-if (window.JBAuth && window.JBAuth.onChange) {
-  window.JBAuth.onChange((user) => {
-    if (user) { mlCloudPullMerge(); }
-    else { mlPulled = false; }
-  });
-}

@@ -76,7 +76,26 @@
     else if (mq.addListener) mq.addListener(onMQ);
   }
 
+  // Link "Salvos" (favoritos, histórico e orçamentos guardados neste aparelho).
+  var SALVOS_PATHS = ['/salvos/', '/favoritos/', '/historico/', '/meus-orcamentos/'];
+
+  function addSalvosLink(nav, linkClass, activeClass) {
+    if (!nav || nav.querySelector('a[href="/salvos/"]')) return;
+    var a = document.createElement('a');
+    a.href = '/salvos/';
+    a.textContent = 'Salvos';
+    if (linkClass) a.className = linkClass;
+    if (SALVOS_PATHS.indexOf(location.pathname) !== -1) {
+      a.classList.add(activeClass);
+      a.setAttribute('aria-current', 'page');
+    }
+    nav.appendChild(a);
+  }
+
   function init() {
+    addSalvosLink(document.querySelector('.site-header .main-nav'), 'nav-link', 'active');
+    addSalvosLink(document.querySelector('.jb-header .jb-nav'), '', 'is-active');
+
     // Cabeçalho padrão do portal.
     enhance(document.querySelector('.site-header'),
             document.querySelector('.site-header .main-nav'));

@@ -16,7 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="/shared/jornada-shared.css?v=20260628c" />
-  <link rel="stylesheet" href="/shared/jb-account.css" />
   <title>Meu Lucro — Quanto Você Realmente Ganha como Motorista de App 2026 | Jornada Brasil</title>
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://jornadabrasil.com.br/meu-lucro/" />
@@ -63,7 +62,7 @@
         "mainEntity": [
           { "@type": "Question", "name": "Como calcular o lucro real de motorista de aplicativo?", "acceptedAnswer": { "@type": "Answer", "text": "Pegue a receita do dia e subtraia o combustível, outros gastos e o desgaste do veículo (km rodados multiplicados pelo custo por km). O que sobra é o lucro líquido real. O app Meu Lucro faz esse cálculo automaticamente a cada dia registrado." } },
           { "@type": "Question", "name": "O que é o custo por km?", "acceptedAnswer": { "@type": "Answer", "text": "É o gasto invisível de rodar: pneus, óleo, seguro, IPVA, manutenção e depreciação do carro. Uma referência comum é R$ 0,25 por km, mas você pode ajustar conforme o seu veículo." } },
-          { "@type": "Question", "name": "Os dados ficam salvos?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Sem cadastro, os registros ficam salvos no navegador do aparelho que você usa. Entrando com a conta Google no topo da página, eles passam a ser sincronizados entre celular e computador." } }
+          { "@type": "Question", "name": "Os dados ficam salvos?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Sem cadastro, os registros ficam salvos no navegador do aparelho que você usa. O relatório do mês pode ser baixado em PDF para guardar uma cópia." } }
         ]
       }
     ]
@@ -184,9 +183,9 @@
 
   <main class="container">
 
-    <!-- Aviso de armazenamento local (some quando a conta Google sincroniza) -->
+    <!-- Aviso de armazenamento local -->
     <div class="local-banner" id="localBanner" hidden>
-      <span>Seus registros ficam salvos neste aparelho. Para sincronizar entre celular e computador, entre com sua conta Google no topo da página.</span>
+      <span>Seus registros ficam salvos neste aparelho (neste navegador). Baixe o relatório do mês em PDF para guardar uma cópia.</span>
     </div>
 
     <!-- ====================== HOJE ====================== -->
@@ -409,12 +408,12 @@
     <p>Separe o valor do desgaste de cada dia numa conta à parte. Em vez de o dinheiro do pneu virar gasto do mês, ele fica guardado e já existe quando a manutenção chega. Com alguns dias registrados, o resumo do mês mostra a média líquida por dia — é esse número que diz se a meta é realista.</p>
 
     <h2>Onde ficam os seus dados</h2>
-    <p>Sem cadastro, os registros ficam salvos no navegador deste aparelho. Entrando com a conta Google no topo da página, eles passam a ser sincronizados entre celular e computador. Os valores não são mostrados a outros usuários, e o relatório do mês pode ser baixado em PDF. Veja a <a href="/privacidade/">Política de Privacidade</a>.</p>
+    <p>Sem cadastro, os registros ficam salvos no navegador deste aparelho. Os valores não são mostrados a outros usuários, e o relatório do mês pode ser baixado em PDF. Veja a <a href="/privacidade/">Política de Privacidade</a>.</p>
 
     <h2>Perguntas frequentes</h2>
     <details class="ml-guide__faq"><summary>Como calcular o lucro real de motorista de aplicativo?</summary><p>Pegue o faturamento do dia e subtraia o combustível, os outros gastos e o desgaste do veículo (km rodados multiplicados pelo custo por km). O que sobra é o lucro real. O Meu Lucro faz essa conta a cada dia registrado.</p></details>
     <details class="ml-guide__faq"><summary>O que é o custo por km?</summary><p>É o gasto invisível de rodar: pneus, óleo, seguro, IPVA, manutenção e depreciação do carro. O app sugere R$ 0,25 por km como ponto de partida, e você pode ajustar para o valor do seu veículo.</p></details>
-    <details class="ml-guide__faq"><summary>Os dados ficam salvos?</summary><p>Sim. Sem cadastro, ficam no navegador do aparelho que você usa. Entrando com a conta Google no topo da página, passam a ser sincronizados entre celular e computador.</p></details>
+    <details class="ml-guide__faq"><summary>Os dados ficam salvos?</summary><p>Sim. Sem cadastro, ficam no navegador do aparelho que você usa. O relatório do mês pode ser baixado em PDF para guardar uma cópia.</p></details>
 
     <p class="ml-guide__more">Continue a conta: <a href="/blog/quanto-ganha-motorista-aplicativo/">quanto ganha um motorista de aplicativo</a>, <a href="/blog/inss-autonomo/">INSS do autônomo</a>, <a href="/blog/financas-do-autonomo/">finanças do autônomo e MEI</a> e o <a href="/pj-vs-clt/">comparador PJ × CLT</a>.</p>
     <p class="ml-guide__note">Os valores do exemplo são ilustrativos. O custo por km do seu carro depende do modelo, do uso e da região. Conteúdo educativo, sem recomendação financeira individual.</p>
@@ -575,16 +574,12 @@
   <script defer src="auth.js"></script>
   <!-- Geração de PDF -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Jornada Brasil — conta e persistência (Supabase) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script defer src="/shared/jb-supabase.js"></script>
-  <script defer src="/shared/jb-data.js"></script>
-  <script defer src="/shared/jb-account.js"></script>
-  <script defer src="/shared/jb-extras.js"></script>
-  <script defer src="/shared/jb-plano.js"></script>
+  <!-- Jornada Brasil — dados salvos neste aparelho -->
+  <script defer src="/shared/jb-data.js?v=20261016a"></script>
+  <script defer src="/shared/jb-extras.js?v=20261016a"></script>
   <!-- App -->
-  <script defer src="script.js?v=20260921a"></script>
+  <script defer src="script.js?v=20261016a"></script>
   <script src="/assets/js/consent.js?v=20260921a" defer></script>
-  <script src="/assets/js/nav.js?v=20260628c" defer></script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
 </body>
 </html>

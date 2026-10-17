@@ -36,8 +36,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
-  <link rel="stylesheet" href="/shared/jb-account.css">
-  <link rel="stylesheet" href="/shared/jb-extras.css">
+  <link rel="stylesheet" href="/shared/jb-extras.css?v=20261016a">
 <meta property="og:url" content="https://jornadabrasil.com.br/cookies/">
 <meta property="og:title" content="Política de Cookies — Jornada Brasil">
 <meta property="og:description" content="Política de cookies do Jornada Brasil.">
@@ -67,7 +66,7 @@
       <div class="inst-page" style="max-width: 800px">
         <h1>Política de Cookies</h1>
         <p class="lead">Esta página explica quais cookies o Jornada Brasil utiliza, para que servem e como você pode gerenciar suas preferências, em conformidade com a LGPD (Lei 13.709/2018).</p>
-        <p style="font-size: .85rem; color: var(--text-3)">Última atualização: setembro/2026</p>
+        <p style="font-size: .85rem; color: var(--text-3)">Última atualização: outubro/2026</p>
 
         <h2>O que são cookies?</h2>
         <p>Cookies são pequenos arquivos de texto armazenados no seu dispositivo quando você visita um site. Servem para lembrar preferências, analisar o tráfego e personalizar a experiência. Você pode controlar e excluir cookies nas configurações do seu navegador.</p>
@@ -84,13 +83,6 @@
                 <td>Armazenamento local essencial</td>
                 <td>Guarda a sua escolha no aviso de cookies (aceitar ou recusar os opcionais)</td>
                 <td>365 dias</td>
-                <td>Não necessário</td>
-              </tr>
-              <tr>
-                <td><code>sb-…-auth-token</code></td>
-                <td>Armazenamento local essencial</td>
-                <td>Mantém a sessão da conta opcional (login Google), só para quem entra na conta</td>
-                <td>Até sair da conta</td>
                 <td>Não necessário</td>
               </tr>
               <tr>
@@ -187,13 +179,9 @@
   <script src="/assets/js/consent.js?v=20260921a" defer></script>
   <script src="/assets/js/pwa.js" defer></script>
 <script src="/assets/js/contact-widget.js" defer></script>
-  <!-- Jornada Brasil — conta (Supabase) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script defer src="/shared/jb-supabase.js"></script>
-  <script defer src="/shared/jb-data.js"></script>
-  <script defer src="/shared/jb-account.js"></script>
-  <script defer src="/shared/jb-extras.js"></script>
-  <script defer src="/shared/jb-plano.js"></script>
-  <script src="/assets/js/nav.js?v=20260628c" defer></script>
+  <!-- Jornada Brasil — favoritos e histórico (salvos neste aparelho) -->
+  <script defer src="/shared/jb-data.js?v=20261016a"></script>
+  <script defer src="/shared/jb-extras.js?v=20261016a"></script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
 </body>
 </html>

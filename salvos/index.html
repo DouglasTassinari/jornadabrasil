@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus salvos — Jornada Brasil</title>
+  <meta name="description" content="Seus favoritos, histórico de cálculos e orçamentos salvos neste aparelho, reunidos em um só lugar.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://jornadabrasil.com.br/salvos/">
+  <meta name="theme-color" content="#1E3A8A">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
+  <link rel="stylesheet" href="/shared/jb-extras.css?v=20261016a">
+  <style>
+    .sv-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
+    @media (min-width: 720px) { .sv-grid { grid-template-columns: 1fr 1fr; } }
+    .sv-card { display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: var(--text); }
+    .sv-card:hover { border-color: var(--primary, #1E3A8A); }
+    .sv-ico { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+    .sv-tit { display: block; font-weight: 700; }
+    .sv-sub { display: block; font-size: .85rem; color: var(--text-2); margin-top: 2px; }
+    .sv-note { margin-top: 22px; padding: 14px 16px; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--text-2); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
+  <header class="site-header" role="banner">
+    <div class="container">
+      <a href="/" class="brand"><picture><source srcset="/assets/img/logo-dark.webp" type="image/webp" media="(prefers-color-scheme: dark)"><source srcset="/assets/img/logo-dark.png" media="(prefers-color-scheme: dark)"><source srcset="/assets/img/logo.webp" type="image/webp"><img src="/assets/img/logo.png" alt="Jornada Brasil — Calculadoras trabalhistas gratuitas" class="brand-img brand-img-full"></picture><picture><source srcset="/assets/img/logo-mark-dark.webp" type="image/webp" media="(prefers-color-scheme: dark)"><source srcset="/assets/img/logo-mark-dark.png" media="(prefers-color-scheme: dark)"><source srcset="/assets/img/logo-mark.webp" type="image/webp"><img src="/assets/img/logo-mark.png" alt="Jornada Brasil" class="brand-img brand-img-mark"></picture></a>
+      <nav class="main-nav" role="navigation">
+        <a href="/" class="nav-link">Início</a>
+        <a href="/calculadoras/" class="nav-link">Calculadoras</a><a href="/tabelas/" class="nav-link">Tabelas 2026</a><a href="/calcular-preco/" class="nav-link">Calcular Preço</a><a href="/meu-lucro/" class="nav-link">Meu Lucro</a>
+        <a href="/blog/" class="nav-link">Blog</a>
+        <a href="/sobre/" class="nav-link">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-main">
+    <div class="container">
+      <nav class="breadcrumb"><a href="/">Início</a><span class="breadcrumb-sep">›</span><span aria-current="page">Meus salvos</span></nav>
+
+      <h1 class="calc-titulo" style="margin-bottom: 4px">Meus salvos</h1>
+      <p class="calc-desc-page">Tudo o que você guardou no Jornada Brasil, sem cadastro e sem login.</p>
+
+      <div class="sv-grid">
+        <a class="sv-card" href="/favoritos/"><span class="sv-ico" aria-hidden="true">⭐</span><span><span class="sv-tit">Favoritos</span><span class="sv-sub" id="svFav">Calculadoras e artigos marcados com a estrela</span></span></a>
+        <a class="sv-card" href="/historico/"><span class="sv-ico" aria-hidden="true">🕘</span><span><span class="sv-tit">Histórico de cálculos</span><span class="sv-sub" id="svHist">Os cálculos que você fez nas calculadoras</span></span></a>
+        <a class="sv-card" href="/meus-orcamentos/"><span class="sv-ico" aria-hidden="true">📁</span><span><span class="sv-tit">Meus orçamentos</span><span class="sv-sub" id="svOrc">Orçamentos salvos no Calcular Preço</span></span></a>
+        <a class="sv-card" href="/meu-lucro/"><span class="sv-ico" aria-hidden="true">🚗</span><span><span class="sv-tit">Meu Lucro</span><span class="sv-sub">Seus dias de trabalho e o lucro real</span></span></a>
+      </div>
+
+      <p class="sv-note">Esses dados ficam salvos só neste aparelho, no navegador que você está usando. Se você limpar os dados do navegador ou trocar de celular, eles não vão junto.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><p class="footer-brand-name">Jornada Brasil</p><p class="footer-desc">Portal de Calculadoras trabalhistas gratuitas.</p></div>
+        <div class="footer-links"><h4>Calculadoras</h4><ul><li><a href="/salario-liquido/">Salário Líquido</a></li><li><a href="/rescisao/">Rescisão</a></li><li><a href="/ferias/">Férias</a></li><li><a href="/decimo-terceiro/">13º Salário</a></li></ul></div>
+        <div class="footer-links"><h4>Portal</h4><ul><li><a href="/tabelas/">Tabelas 2026</a></li><li><a href="/calcular-preco/">Calcular Preço</a></li><li><a href="/meu-lucro/">Meu Lucro</a></li><li><a href="/blog/">Blog</a></li><li><a href="/mapa-do-site/">Mapa do site</a></li><li><a href="/sobre/">Sobre</a></li><li><a href="/contato/">Contato</a></li><li><a href="/privacidade/">Privacidade</a></li><li><a href="/termos/">Termos</a></li></ul></div>
+        <div class="footer-refs"><h4>Fontes</h4><ul><li><a href="https://www.receita.fazenda.gov.br" target="_blank" rel="noopener">Receita Federal</a></li><li><a href="https://www.gov.br/inss/pt-br" target="_blank" rel="noopener">INSS</a></li></ul></div>
+      </div>
+      <div class="footer-disclaimer"><p>Caráter educativo — não substitui orientação profissional. Jornada Brasil · Tabelas 2026 · julho/2026</p><p class="footer-author">Feito por <a href="/autor/douglas-tassinari/">Douglas Tassinari</a> · <a href="/sobre/">por que o site existe</a></p></div>
+    </div>
+  </footer>
+
+  <script src="/shared/jb-data.js?v=20261016a"></script>
+  <script>
+  (function () {
+    function count(id, res, um, varios) {
+      var n = ((res && res.data) || []).length;
+      if (n) document.getElementById(id).textContent = n + " " + (n === 1 ? um : varios);
+    }
+    window.JBData.listFavoritos().then(function (r) { count("svFav", r, "favorito", "favoritos"); });
+    window.JBData.listHistorico().then(function (r) { count("svHist", r, "cálculo salvo", "cálculos salvos"); });
+    window.JBData.listOrcamentos().then(function (r) { count("svOrc", r, "orçamento salvo", "orçamentos salvos"); });
+  })();
+  </script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
+</body>
+</html>

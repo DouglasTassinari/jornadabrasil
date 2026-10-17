@@ -1,8 +1,8 @@
 /* ============================================================
-   Calcular Preço — persistência de orçamentos (Supabase)
+   Calcular Preço — persistência de orçamentos (neste aparelho)
    Salvar / listar / reabrir / duplicar / excluir.
-   Depende de window.__CP (exposto pelo app React), window.JBData,
-   window.JBAuth (jb-supabase.js / jb-data.js).
+   Depende de window.__CP (exposto pelo app React) e window.JBData
+   (/shared/jb-data.js).
    ============================================================ */
 (function () {
   "use strict";
@@ -44,13 +44,6 @@
     ".cp-recover button{font:600 .84rem Inter,system-ui,sans-serif;padding:8px 15px;border-radius:9px;cursor:pointer;border:none}",
     ".cp-recover .yes{background:#F97316;color:#fff}",
     ".cp-recover .no{background:transparent;color:#6B7280;border:1px solid rgba(128,128,128,.3)}",
-    ".cp-cta{position:relative;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 36px 12px 16px;border:1px solid #FED7AA;border-left:4px solid #F97316;border-radius:12px;background:#FFF7ED;color:#1F2937;font:500 .88rem/1.4 Inter,system-ui,sans-serif}",
-    "@media(prefers-color-scheme:dark){.cp-cta{background:rgba(249,115,22,.10);border-color:rgba(249,115,22,.35);color:#F9FAFB}}",
-    ".cp-cta .ico{font-size:1.2rem;line-height:1}",
-    ".cp-cta .tx{flex:1;min-width:170px}",
-    ".cp-cta .tx b{font-weight:700}",
-    ".cp-cta .go{flex-shrink:0;background:#F97316;color:#fff;border:none;border-radius:9px;padding:9px 15px;font:600 .85rem Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap}",
-    ".cp-cta .x{position:absolute;top:7px;right:9px;background:none;border:none;color:#9CA3AF;font-size:1.05rem;cursor:pointer;line-height:1}",
   ].join("");
   document.head.appendChild(css);
 
@@ -75,75 +68,27 @@
 
   function ensureSnapshot() { return window.__CP && window.__CP.snapshot ? window.__CP.snapshot() : null; }
 
-  // ---------- CTA de conversão (somente visitante deslogado; sem popup) ----------
-  function mountCTA() {
-    try { if (localStorage.getItem("cp_cta_dismiss") === "1") return; } catch (e) {}
-    var root = document.getElementById("root");
-    if (!root || document.querySelector(".cp-cta-host")) return;
-    var host = document.createElement("div");
-    host.className = "cp-cta-host no-print";
-    host.style.cssText = "max-width:680px;margin:14px auto -4px;padding:0 16px;box-sizing:border-box";
-    host.innerHTML =
-      '<div class="cp-cta">' +
-        '<span class="ico">🔒</span>' +
-        '<span class="tx"><b>Crie uma conta grátis</b> e salve seus orçamentos. Recupere seus cálculos, histórico e favoritos de qualquer aparelho.</span>' +
-        '<button type="button" class="go">Criar conta grátis</button>' +
-        '<button type="button" class="x" aria-label="Dispensar">×</button>' +
-      '</div>';
-    root.parentNode.insertBefore(host, root);
-    host.querySelector(".go").addEventListener("click", function () {
-      var pend = ensureSnapshot();
-      if (pend) { try { localStorage.setItem("cp_pending", JSON.stringify(pend)); } catch (e) {} }
-      window.JBAuth.signInWithGoogle(window.location.href);
-    });
-    host.querySelector(".x").addEventListener("click", function () {
-      try { localStorage.setItem("cp_cta_dismiss", "1"); } catch (e) {}
-      host.remove();
-    });
-  }
-  function removeCTA() {
-    var h = document.querySelector(".cp-cta-host");
-    if (h && h.parentNode) h.parentNode.removeChild(h);
-  }
-  window.JBAuth.ready.then(function (user) { if (!user) mountCTA(); });
-  window.JBAuth.onChange(function (user) { if (user) removeCTA(); });
-
   btnSave.addEventListener("click", function () {
-    window.JBAuth.ready.then(function (user) {
-      if (!user) {
-        // Guarda o orçamento em andamento antes do redirect do Google (o estado do React some no F5).
-        var pend = ensureSnapshot();
-        if (pend) { try { localStorage.setItem("cp_pending", JSON.stringify(pend)); } catch (e) {} }
-        toast("Crie uma conta grátis para salvar e acessar de qualquer aparelho");
-        window.JBAuth.signInWithGoogle(window.location.href);
-        return;
-      }
-      var snap = ensureSnapshot();
-      if (!snap) { toast("Preencha o orçamento primeiro", false); return; }
-      var def = snap.nome || ("Orçamento " + new Date().toLocaleDateString("pt-BR"));
-      var nome = prompt("Nome do orçamento:", def);
-      if (nome === null) return;
-      snap.nome = (nome || def).trim();
-      btnSave.disabled = true;
-      window.JBData.saveOrcamento(snap).then(function (res) {
-        btnSave.disabled = false;
-        if (res.error) { toast("Erro ao salvar: " + res.error.message, false); return; }
-        toast("Orçamento salvo ✓");
-      });
+    var snap = ensureSnapshot();
+    if (!snap) { toast("Preencha o orçamento primeiro", false); return; }
+    var def = snap.nome || ("Orçamento " + new Date().toLocaleDateString("pt-BR"));
+    var nome = prompt("Nome do orçamento:", def);
+    if (nome === null) return;
+    snap.nome = (nome || def).trim();
+    btnSave.disabled = true;
+    window.JBData.saveOrcamento(snap).then(function (res) {
+      btnSave.disabled = false;
+      if (res.error) { toast("Erro ao salvar: " + res.error.message, false); return; }
+      toast("Orçamento salvo neste aparelho ✓");
     });
   });
 
-  btnList.addEventListener("click", function () {
-    window.JBAuth.ready.then(function (user) {
-      if (!user) { toast("Crie uma conta grátis para ver seus orçamentos salvos"); window.JBAuth.signInWithGoogle(window.location.href); return; }
-      openList();
-    });
-  });
+  btnList.addEventListener("click", openList);
 
   function openList() {
     var ov = document.createElement("div");
     ov.className = "cp-overlay";
-    ov.innerHTML = '<div class="cp-sheet"><button class="cp-close" aria-label="Fechar">×</button><h3>Meus orçamentos</h3><div class="cp-sub">Reabra, duplique ou exclua um orçamento salvo.</div><div class="cp-body"><div class="cp-empty">Carregando…</div></div></div>';
+    ov.innerHTML = '<div class="cp-sheet"><button class="cp-close" aria-label="Fechar">×</button><h3>Meus orçamentos</h3><div class="cp-sub">Reabra, duplique ou exclua um orçamento salvo neste aparelho.</div><div class="cp-body"><div class="cp-empty">Carregando…</div></div></div>';
     document.body.appendChild(ov);
     ov.addEventListener("click", function (e) { if (e.target === ov) ov.remove(); });
     ov.querySelector(".cp-close").addEventListener("click", function () { ov.remove(); });
@@ -185,39 +130,17 @@
     });
   }
 
-  // ---------- retomar "salvar" interrompido pelo login ----------
-  function handlePending() {
-    var raw;
-    try { raw = localStorage.getItem("cp_pending"); } catch (e) {}
-    if (!raw) return;
-    window.JBAuth.ready.then(function (user) {
-      if (!user) return;
-      var snap;
-      try { snap = JSON.parse(raw); } catch (e) { try { localStorage.removeItem("cp_pending"); } catch (e2) {} return; }
-      try { localStorage.removeItem("cp_pending"); } catch (e) {}
-      if (window.__cpApply && snap.params) window.__cpApply(snap.params);
-      snap.nome = snap.nome || ("Orçamento " + new Date().toLocaleDateString("pt-BR"));
-      window.JBData.saveOrcamento(snap).then(function (res) {
-        if (res.error) { toast("Clique em salvar novamente", false); return; }
-        toast("Orçamento salvo ✓");
-      });
-    });
-  }
-
   // ---------- reabrir via ?orc=ID ----------
   function tryOpenFromUrl() {
     var m = /[?&]orc=([^&]+)/.exec(location.search);
     if (!m) return;
     var id = decodeURIComponent(m[1]);
-    window.JBAuth.ready.then(function (user) {
-      if (!user) return;
-      window.JBData.getOrcamento(id).then(function (res) {
-        if (res && res.data && window.__cpApply) {
-          window.__cpApply(res.data.params || {});
-          toast("Orçamento \"" + (res.data.nome || "Orçamento") + "\" reaberto ✓");
-          history.replaceState(null, "", location.pathname);
-        }
-      });
+    window.JBData.getOrcamento(id).then(function (res) {
+      if (res && res.data && window.__cpApply) {
+        window.__cpApply(res.data.params || {});
+        toast("Orçamento \"" + (res.data.nome || "Orçamento") + "\" reaberto ✓");
+        history.replaceState(null, "", location.pathname);
+      }
     });
   }
   // ---------- recuperação de trabalho (Fase 6) ----------
@@ -255,10 +178,8 @@
   }
 
   function offerRecovery() {
-    // não atrapalha quando há retomada de login ou abertura por ?orc=
-    var hasPending = false;
-    try { hasPending = !!localStorage.getItem("cp_pending"); } catch (e) {}
-    if (hasPending || /[?&]orc=/.test(location.search)) return;
+    // não atrapalha quando o orçamento é aberto por ?orc=
+    if (/[?&]orc=/.test(location.search)) return;
 
     var raw;
     try { raw = localStorage.getItem(CP_DRAFT); } catch (e) { return; }
@@ -288,26 +209,7 @@
     });
   }
 
-  // ---------- numeração por usuário (item 4) ----------
-  // Para usuário logado, o nº do orçamento passa a ser sequencial por conta
-  // (qtd de orçamentos salvos + 1), em vez do contador por aparelho. Não roda
-  // quando há reabertura (?orc=) ou retomada pós-login (cp_pending): nesses
-  // casos o nº vem dos params do orçamento.
-  function applyUserNumero() {
-    if (/[?&]orc=/.test(location.search)) return;
-    try { if (localStorage.getItem("cp_pending")) return; } catch (e) {}
-    window.JBAuth.ready.then(function (user) {
-      if (!user || !window.JBData) return;
-      window.JBData.listOrcamentos().then(function (res) {
-        if (!res || res.error || !window.__CP || !window.__CP.setNumero) return;
-        var n = ((res.data) || []).length + 1;
-        var num = String(n).padStart(4, "0") + "/" + new Date().getFullYear();
-        window.__CP.setNumero(num);
-      });
-    });
-  }
-
-  function onReady() { handlePending(); tryOpenFromUrl(); offerRecovery(); startAutosave(); applyUserNumero(); }
+  function onReady() { tryOpenFromUrl(); offerRecovery(); startAutosave(); }
   if (window.__cpReadyFired) onReady();
   else window.addEventListener("cp:ready", onReady, { once: true });
 })();

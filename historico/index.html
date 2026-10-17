@@ -17,8 +17,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
-  <link rel="stylesheet" href="/shared/jb-account.css">
-  <link rel="stylesheet" href="/shared/jb-extras.css">
+  <link rel="stylesheet" href="/shared/jb-extras.css?v=20261016a">
   <style>
     .hi-filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 18px; }
     .hi-chip { font: 600 .82rem Inter, system-ui, sans-serif; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); cursor: pointer; }
@@ -40,9 +39,6 @@
     .hi-detail-row { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; font-size: .88rem; border-bottom: 1px dashed var(--border-2); }
     .hi-detail-row:last-child { border-bottom: none; }
     .hi-detail-row .v { font-weight: 600; font-family: "JetBrains Mono", ui-monospace, monospace; }
-    .conta-gate { text-align: center; padding: 48px 20px; }
-    .conta-gate h1 { margin-bottom: 8px; }
-    .conta-gate p { color: var(--text-2); max-width: 460px; margin: 0 auto 22px; }
     .hi-empty { color: var(--text-2); padding: 36px 20px; text-align: center; border: 1px dashed var(--border); border-radius: var(--radius); }
     .hidden { display: none !important; }
   </style>
@@ -63,20 +59,12 @@
 
   <main id="main-content" class="page-main">
     <div class="container">
-      <nav class="breadcrumb"><a href="/">Início</a><span class="breadcrumb-sep">›</span><a href="/conta/">Minha conta</a><span class="breadcrumb-sep">›</span><span aria-current="page">Histórico</span></nav>
+      <nav class="breadcrumb"><a href="/">Início</a><span class="breadcrumb-sep">›</span><a href="/salvos/">Meus salvos</a><span class="breadcrumb-sep">›</span><span aria-current="page">Histórico</span></nav>
 
-      <div id="gate" class="conta-gate hidden">
-        <h1>Seu histórico de cálculos</h1>
-        <p>Entre com sua conta Google. A partir daí, todo cálculo que você fizer nas calculadoras fica salvo aqui para você reabrir quando quiser.</p>
-        <button id="gateLogin" class="btn btn-primary">Entrar com Google</button>
-      </div>
-
-      <div id="loading" class="conta-gate"><p>Carregando…</p></div>
-
-      <div id="app" class="hidden">
+      <div id="app">
         <div style="margin-bottom: 6px">
           <h1 class="calc-titulo" style="margin-bottom: 4px">Histórico de cálculos</h1>
-          <p class="calc-desc-page">Cada cálculo feito nas calculadoras é salvo automaticamente. Filtre, visualize os detalhes ou reabra com um clique.</p>
+          <p class="calc-desc-page">Cada cálculo feito nas calculadoras é salvo automaticamente. Filtre, visualize os detalhes ou reabra com um clique. Tudo fica salvo só neste aparelho (neste navegador).</p>
         </div>
 
         <div id="filters" class="hi-filters no-print"></div>
@@ -98,11 +86,7 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="/shared/jb-supabase.js"></script>
-  <script src="/shared/jb-data.js"></script>
-  <script src="/shared/jb-account.js" defer></script>
-  <script src="/shared/jb-plano.js" defer></script>
+  <script src="/shared/jb-data.js?v=20261016a"></script>
   <script>
   (function () {
     var BRL = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
@@ -114,19 +98,9 @@
     var all = [];
     var filtro = "todos";
 
-    function show(state) {
-      $("gate").classList.toggle("hidden", state !== "gate");
-      $("loading").classList.toggle("hidden", state !== "loading");
-      $("app").classList.toggle("hidden", state !== "app");
-    }
 
-    $("gateLogin").addEventListener("click", function () { window.JBAuth.signInWithGoogle(window.location.href); });
 
-    window.JBAuth.ready.then(function (user) {
-      if (!user) { show("gate"); }
-      else { show("app"); load(); }
-    });
-    window.JBAuth.onChange(function (user) { if (!user) show("gate"); });
+    load();
 
     function load() {
       window.JBData.listHistorico().then(function (res) {
@@ -208,6 +182,6 @@
     }
   })();
   </script>
-  <script src="/assets/js/nav.js?v=20260628c" defer></script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
 </body>
 </html>

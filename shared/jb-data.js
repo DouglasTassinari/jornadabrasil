@@ -1,149 +1,122 @@
 /* ============================================================
-   Jornada Brasil — camada de dados (Supabase)
-   Orçamentos (Calcular Preço) e Registros (Meu Lucro).
-   Depende de window.jbSupa e window.JBAuth (jb-supabase.js).
+   Jornada Brasil — camada de dados (local, sem conta)
+   Orçamentos (Calcular Preço), histórico de cálculos e favoritos.
+   Tudo fica salvo no navegador deste aparelho (localStorage).
+   Todas as funções devolvem Promise<{ data, error }>.
    ============================================================ */
 (function () {
   "use strict";
 
-  function uid() { return window.JBAuth && window.JBAuth.user ? window.JBAuth.user.id : null; }
-  function sb() { return window.jbSupa; }
+  var KEYS = {
+    orcamentos: "jb:orcamentos",
+    historico: "jb:historico",
+    favoritos: "jb:favoritos",
+  };
+  var MAX_HISTORICO = 200;
+
+  function read(key) {
+    try {
+      var list = JSON.parse(localStorage.getItem(key));
+      return Array.isArray(list) ? list : [];
+    } catch (e) { return []; }
+  }
+  function write(key, list) {
+    try { localStorage.setItem(key, JSON.stringify(list)); return null; }
+    catch (e) { return { message: "Sem espaço para salvar neste aparelho" }; }
+  }
+  function ok(data) { return Promise.resolve({ data: data, error: null }); }
+  function fail(msg) { return Promise.resolve({ data: null, error: { message: msg } }); }
+  function newId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+  function now() { return new Date().toISOString(); }
+  function byNewest(a, b) { return String(b.created_at).localeCompare(String(a.created_at)); }
+  function pick(src, fields) {
+    var out = {};
+    fields.forEach(function (k) { if (src[k] !== undefined) out[k] = src[k]; });
+    return out;
+  }
+
+  function insert(key, row) {
+    var list = read(key);
+    row.id = newId();
+    row.created_at = row.updated_at = now();
+    list.push(row);
+    var err = write(key, list);
+    return err ? Promise.resolve({ data: null, error: err }) : ok(row);
+  }
+  function update(key, id, patch) {
+    var list = read(key);
+    var row = list.filter(function (r) { return r.id === id; })[0];
+    if (!row) return fail("Não encontrado");
+    Object.assign(row, patch, { updated_at: now() });
+    var err = write(key, list);
+    return err ? Promise.resolve({ data: null, error: err }) : ok(row);
+  }
+  function remove(key, keep) {
+    var err = write(key, read(key).filter(keep));
+    return err ? Promise.resolve({ data: null, error: err }) : ok(null);
+  }
+
+  var ORC_FIELDS = ["nome", "valor_hora", "custos", "margem", "preco_final", "params"];
+  var HIST_FIELDS = ["tipo", "titulo", "url", "valor_principal", "valor_label", "resumo", "inputs"];
 
   window.JBData = {
     // ---------------- Orçamentos ----------------
     listOrcamentos: function () {
-      return sb().from("orcamentos").select("*").order("created_at", { ascending: false });
+      return ok(read(KEYS.orcamentos).sort(byNewest));
     },
     getOrcamento: function (id) {
-      return sb().from("orcamentos").select("*").eq("id", id).single();
+      var row = read(KEYS.orcamentos).filter(function (r) { return r.id === id; })[0];
+      return row ? ok(row) : fail("Orçamento não encontrado neste aparelho");
     },
     saveOrcamento: function (o) {
-      var u = uid();
-      if (!u) return Promise.resolve({ error: { message: "Não autenticado" } });
-      return sb().from("orcamentos").insert({
-        user_id: u,
-        nome: o.nome || "Orçamento",
-        valor_hora: o.valor_hora != null ? o.valor_hora : null,
-        custos: o.custos || {},
-        margem: o.margem != null ? o.margem : null,
-        preco_final: o.preco_final != null ? o.preco_final : null,
-        params: o.params || {},
-      }).select().single();
+      var row = pick(o, ORC_FIELDS);
+      row.nome = o.nome || "Orçamento";
+      return insert(KEYS.orcamentos, row);
     },
     updateOrcamento: function (id, o) {
-      var patch = {};
-      ["nome", "valor_hora", "custos", "margem", "preco_final", "params"].forEach(function (k) {
-        if (o[k] !== undefined) patch[k] = o[k];
-      });
-      return sb().from("orcamentos").update(patch).eq("id", id).select().single();
+      return update(KEYS.orcamentos, id, pick(o, ORC_FIELDS));
     },
     deleteOrcamento: function (id) {
-      return sb().from("orcamentos").delete().eq("id", id);
+      return remove(KEYS.orcamentos, function (r) { return r.id !== id; });
     },
 
-    // ---------------- Registros Meu Lucro ----------------
-    listRegistros: function (range) {
-      var q = sb().from("registros_meu_lucro").select("*").order("data", { ascending: false });
-      if (range && range.from) q = q.gte("data", range.from);
-      if (range && range.to) q = q.lte("data", range.to);
-      return q;
-    },
-    insertRegistro: function (r) {
-      var u = uid();
-      if (!u) return Promise.resolve({ error: { message: "Não autenticado" } });
-      return sb().from("registros_meu_lucro").insert(mapReg(r, u)).select().single();
-    },
-    upsertRegistro: function (r) {
-      var u = uid();
-      if (!u) return Promise.resolve({ error: { message: "Não autenticado" } });
-      var row = mapReg(r, u);
-      if (r.id) row.id = r.id;
-      return sb().from("registros_meu_lucro").upsert(row, { onConflict: "id" }).select().single();
-    },
-    updateRegistro: function (id, r) {
-      var u = uid();
-      var patch = mapReg(r, u);
-      delete patch.user_id;
-      return sb().from("registros_meu_lucro").update(patch).eq("id", id).select().single();
-    },
-    deleteRegistro: function (id) {
-      return sb().from("registros_meu_lucro").delete().eq("id", id);
-    },
-
-    // ---------------- Histórico de cálculos (Fase 3) ----------------
+    // ---------------- Histórico de cálculos ----------------
     listHistorico: function (tipo) {
-      var q = sb().from("historico_calculos").select("*").order("created_at", { ascending: false });
-      if (tipo) q = q.eq("tipo", tipo);
-      return q;
+      var list = read(KEYS.historico).sort(byNewest);
+      if (tipo) list = list.filter(function (r) { return r.tipo === tipo; });
+      return ok(list);
     },
     saveHistorico: function (h) {
-      var u = uid();
-      if (!u) return Promise.resolve({ error: { message: "Não autenticado" } });
-      return sb().from("historico_calculos").insert({
-        user_id: u,
-        tipo: h.tipo || "calculo",
-        titulo: h.titulo || null,
-        url: h.url || null,
-        valor_principal: h.valor_principal != null ? h.valor_principal : null,
-        valor_label: h.valor_label || null,
-        resumo: h.resumo || [],
-        inputs: h.inputs || {},
-      }).select().single();
+      var row = pick(h, HIST_FIELDS);
+      row.tipo = h.tipo || "calculo";
+      // mantém só os cálculos mais recentes para não lotar o aparelho
+      var list = read(KEYS.historico).sort(byNewest);
+      if (list.length >= MAX_HISTORICO) write(KEYS.historico, list.slice(0, MAX_HISTORICO - 1));
+      return insert(KEYS.historico, row);
     },
     updateHistorico: function (id, h) {
-      var patch = {};
-      ["tipo", "titulo", "url", "valor_principal", "valor_label", "resumo", "inputs"].forEach(function (k) {
-        if (h[k] !== undefined) patch[k] = h[k];
-      });
-      return sb().from("historico_calculos").update(patch).eq("id", id).select().single();
+      return update(KEYS.historico, id, pick(h, HIST_FIELDS));
     },
     deleteHistorico: function (id) {
-      return sb().from("historico_calculos").delete().eq("id", id);
+      return remove(KEYS.historico, function (r) { return r.id !== id; });
     },
 
-    // ---------------- Favoritos (Fase 4) ----------------
+    // ---------------- Favoritos ----------------
     listFavoritos: function (tipo) {
-      var q = sb().from("favoritos").select("*").order("created_at", { ascending: false });
-      if (tipo) q = q.eq("tipo", tipo);
-      return q;
+      var list = read(KEYS.favoritos).sort(byNewest);
+      if (tipo) list = list.filter(function (r) { return r.tipo === tipo; });
+      return ok(list);
     },
     addFavorito: function (f) {
-      var u = uid();
-      if (!u) return Promise.resolve({ error: { message: "Não autenticado" } });
-      return sb().from("favoritos").upsert({
-        user_id: u,
-        tipo: f.tipo || "calculadora",
-        slug: f.slug,
-        titulo: f.titulo || null,
-        url: f.url || null,
-      }, { onConflict: "user_id,tipo,slug" }).select().single();
+      var tipo = f.tipo || "calculadora";
+      var existing = read(KEYS.favoritos).filter(function (r) { return r.tipo === tipo && r.slug === f.slug; })[0];
+      if (existing) return ok(existing);
+      return insert(KEYS.favoritos, { tipo: tipo, slug: f.slug, titulo: f.titulo || null, url: f.url || null });
     },
     removeFavorito: function (tipo, slug) {
-      var u = uid();
-      if (!u) return Promise.resolve({ error: { message: "Não autenticado" } });
-      return sb().from("favoritos").delete().eq("user_id", u).eq("tipo", tipo).eq("slug", slug);
-    },
-
-    // ---------------- Perfil / plano (Fases 1 e 8) ----------------
-    getProfile: function () {
-      var u = uid();
-      if (!u) return Promise.resolve({ data: null, error: { message: "Não autenticado" } });
-      return sb().from("profiles").select("*").eq("id", u).single();
+      return remove(KEYS.favoritos, function (r) { return !(r.tipo === tipo && r.slug === slug); });
     },
   };
-
-  function mapReg(r, u) {
-    return {
-      user_id: u,
-      data: r.data,
-      receita: num(r.receita),
-      combustivel: num(r.combustivel),
-      manutencao: num(r.manutencao),
-      despesas: num(r.despesas),
-      km: num(r.km),
-      lucro: num(r.lucro),
-      meta: num(r.meta),
-    };
-  }
-  function num(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
 })();

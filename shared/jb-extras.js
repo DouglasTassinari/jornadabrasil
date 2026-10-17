@@ -1,10 +1,10 @@
 /* ============================================================
    Jornada Brasil — Extras do produto (Fases 3, 4 e 7)
-   - Favoritar calculadoras e artigos (Supabase)
-   - Histórico automático de cálculos (Supabase)
+   - Favoritar calculadoras e artigos (salvos neste aparelho)
+   - Histórico automático de cálculos (salvo neste aparelho)
    - Reabertura de cálculo a partir do /historico/
-   - CTA de cadastro e "Continue lendo" nos artigos do blog
-   Fail-safe: nada aqui pode quebrar a página. Depende de JBAuth/JBData.
+   - "Continue lendo" e calculadoras relacionadas
+   Fail-safe: nada aqui pode quebrar a página. Depende de JBData.
    ============================================================ */
 (function () {
   "use strict";
@@ -26,9 +26,6 @@
     t.textContent = msg;
     document.body.appendChild(t);
     setTimeout(function () { t.remove(); }, 2600);
-  }
-  function whenAuth() {
-    return (window.JBAuth && window.JBAuth.ready) ? window.JBAuth.ready : Promise.resolve(null);
   }
 
   /* ---------- contexto da página ---------- */
@@ -65,33 +62,23 @@
       label.textContent = fav ? "Favorito" : "Favoritar";
     }
     btn.addEventListener("click", function () {
-      whenAuth().then(function (user) {
-        if (!user) {
-          toast("Entre com o Google para favoritar");
-          if (window.JBAuth) window.JBAuth.signInWithGoogle(window.location.href);
-          return;
-        }
-        btn.disabled = true;
-        var op = fav
-          ? window.JBData.removeFavorito(tipo, slug)
-          : window.JBData.addFavorito({ tipo: tipo, slug: slug, titulo: titulo, url: url });
-        Promise.resolve(op).then(function (res) {
-          btn.disabled = false;
-          if (res && res.error) { toast("Não foi possível salvar", true); return; }
-          fav = !fav; paint();
-          toast(fav ? "Adicionado aos favoritos ✓" : "Removido dos favoritos");
-        });
+      btn.disabled = true;
+      var op = fav
+        ? window.JBData.removeFavorito(tipo, slug)
+        : window.JBData.addFavorito({ tipo: tipo, slug: slug, titulo: titulo, url: url });
+      Promise.resolve(op).then(function (res) {
+        btn.disabled = false;
+        if (res && res.error) { toast("Não foi possível salvar", true); return; }
+        fav = !fav; paint();
+        toast(fav ? "Adicionado aos favoritos ✓" : "Removido dos favoritos");
       });
     });
 
     // estado inicial
-    whenAuth().then(function (user) {
-      if (!user || !window.JBData) return;
-      window.JBData.listFavoritos(tipo).then(function (res) {
-        var list = (res && res.data) || [];
-        fav = list.some(function (f) { return f.slug === slug; });
-        paint();
-      });
+    window.JBData.listFavoritos(tipo).then(function (res) {
+      var list = (res && res.data) || [];
+      fav = list.some(function (f) { return f.slug === slug; });
+      paint();
     });
 
     paint();
@@ -179,27 +166,24 @@
     var timer = null;
 
     function trySave() {
-      whenAuth().then(function (user) {
-        if (!user) return;
-        var res = readResult();
-        if (!res || res.valor_principal == null) return;
-        var inputs = collectInputs();
-        var hash = JSON.stringify([res.valor_principal, res.valor_label, inputs]);
-        if (hash === lastHash) return;
-        lastHash = hash;
-        var payload = {
-          tipo: calcTipo, titulo: titulo, url: url,
-          valor_principal: res.valor_principal, valor_label: res.valor_label,
-          resumo: res.resumo, inputs: inputs,
-        };
-        if (sessionRowId) {
-          window.JBData.updateHistorico(sessionRowId, payload);
-        } else {
-          window.JBData.saveHistorico(payload).then(function (r) {
-            if (r && r.data && r.data.id) sessionRowId = r.data.id;
-          });
-        }
-      });
+      var res = readResult();
+      if (!res || res.valor_principal == null) return;
+      var inputs = collectInputs();
+      var hash = JSON.stringify([res.valor_principal, res.valor_label, inputs]);
+      if (hash === lastHash) return;
+      lastHash = hash;
+      var payload = {
+        tipo: calcTipo, titulo: titulo, url: url,
+        valor_principal: res.valor_principal, valor_label: res.valor_label,
+        resumo: res.resumo, inputs: inputs,
+      };
+      if (sessionRowId) {
+        window.JBData.updateHistorico(sessionRowId, payload);
+      } else {
+        window.JBData.saveHistorico(payload).then(function (r) {
+          if (r && r.data && r.data.id) sessionRowId = r.data.id;
+        });
+      }
     }
     function schedule() {
       clearTimeout(timer);
@@ -396,30 +380,11 @@
         container.appendChild(cbox);
       }
     }
-
-    // 3) CTA de cadastro (somente visitantes não logados)
-    whenAuth().then(function (user) {
-      if (user) return;
-      if (document.querySelector(".jb-article-cta")) return;
-      var cta = document.createElement("div");
-      cta.className = "jb-article-cta no-print";
-      cta.innerHTML =
-        '<h3>Salve seus cálculos e orçamentos</h3>' +
-        '<p>Crie uma conta gratuita com o Google e guarde seu histórico de cálculos, favoritos e orçamentos para acessar de qualquer aparelho.</p>' +
-        '<div class="jb-cta-actions">' +
-          '<button type="button" class="jb-cta-btn primary">Criar conta grátis</button>' +
-          '<a class="jb-cta-btn ghost" href="/calculadoras/">Ver calculadoras</a>' +
-        '</div>';
-      cta.querySelector(".primary").addEventListener("click", function () {
-        if (window.JBAuth) window.JBAuth.signInWithGoogle(window.location.href);
-      });
-      container.appendChild(cta);
-    });
   }
 
   /* ============================================================
      SEO interno em páginas de calculadora (Fase 7)
-     "Artigos relacionados" + "Outras calculadoras" + CTA de login.
+     "Artigos relacionados" + "Outras calculadoras".
      ============================================================ */
   function injectCalcRelated() {
     if (!calcTipo) return;
@@ -448,25 +413,6 @@
         container.appendChild(box);
       }
     }
-
-    // CTA de login para salvar (apenas visitantes não logados)
-    whenAuth().then(function (user) {
-      if (user) return;
-      if (document.querySelector(".jb-article-cta")) return;
-      var cta = document.createElement("div");
-      cta.className = "jb-article-cta no-print";
-      cta.innerHTML =
-        '<h3>Salve este cálculo na sua conta</h3>' +
-        '<p>Entre com o Google para guardar seu histórico de cálculos e reabrir quando quiser, de qualquer aparelho.</p>' +
-        '<div class="jb-cta-actions">' +
-          '<button type="button" class="jb-cta-btn primary">Entrar com Google</button>' +
-          '<a class="jb-cta-btn ghost" href="/calculadoras/">Outras calculadoras</a>' +
-        '</div>';
-      cta.querySelector(".primary").addEventListener("click", function () {
-        if (window.JBAuth) window.JBAuth.signInWithGoogle(window.location.href);
-      });
-      container.appendChild(cta);
-    });
   }
 
   /* ============================================================

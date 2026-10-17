@@ -222,8 +222,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="/shared/jornada-shared.css?v=20260628c">
-  <link rel="stylesheet" href="/shared/jb-account.css">
-  <link rel="stylesheet" href="/shared/jb-extras.css">
+  <link rel="stylesheet" href="/shared/jb-extras.css?v=20261016a">
   <script defer src="/shared/jb-analytics.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800">
@@ -655,7 +654,7 @@
 
       const hoje = new Date().toLocaleDateString("pt-BR");
 
-      /* ---- Persistência (Jornada Brasil / Supabase): expõe snapshot e restauração ---- */
+      /* ---- Persistência (orçamentos salvos neste aparelho): expõe snapshot e restauração ---- */
       useEffect(() => {
         window.__CP = {
           snapshot: function () {
@@ -674,8 +673,6 @@
               },
             };
           },
-          // Item 4 — numeração por usuário: persist.js define o nº a partir do Supabase.
-          setNumero: function (s) { if (s) setNumeroOrc(s); },
         };
         window.__cpApply = function (params) {
           if (!params) return;
@@ -1349,14 +1346,10 @@
     })();
   </script>
 
-  <!-- Jornada Brasil — conta e persistência (Supabase) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="/shared/jb-supabase.js"></script>
-  <script src="/shared/jb-data.js"></script>
-  <script src="/shared/jb-account.js" defer></script>
-  <script src="/shared/jb-plano.js" defer></script>
-  <script src="persist.js" defer></script>
+  <!-- Jornada Brasil — dados salvos neste aparelho -->
+  <script src="/shared/jb-data.js?v=20261016a"></script>
+  <script src="persist.js?v=20261016a" defer></script>
   <script src="/assets/js/consent.js?v=20260921a" defer></script>
-  <script src="/assets/js/nav.js?v=20260628c" defer></script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
 </body>
 </html>

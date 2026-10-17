@@ -1,7 +1,7 @@
 // Portal Brasil — Service Worker
 // Estratégia: Cache-First para estáticos, Network-First para HTML e JSON
 
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v7';
 const STATIC_CACHE = `jornadabrasil-static-${CACHE_VERSION}`;
 const HTML_CACHE = `jornadabrasil-html-${CACHE_VERSION}`;
 

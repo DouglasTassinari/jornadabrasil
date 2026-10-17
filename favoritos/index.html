@@ -17,8 +17,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
   <link rel="stylesheet" href="/assets/css/style.css?v=20260921a">
-  <link rel="stylesheet" href="/shared/jb-account.css">
-  <link rel="stylesheet" href="/shared/jb-extras.css">
+  <link rel="stylesheet" href="/shared/jb-extras.css?v=20261016a">
   <style>
     .fav-section { margin-top: 22px; }
     .fav-section h2 { font-size: 1.05rem; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
@@ -31,9 +30,6 @@
     .fav-card .fav-sub { display: block; font-size: .78rem; color: var(--text-2); font-weight: 400; margin-top: 2px; }
     .fav-rm { flex-shrink: 0; font: 600 .78rem Inter, system-ui, sans-serif; padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--red); cursor: pointer; }
     .fav-rm:hover { background: var(--bg); }
-    .conta-gate { text-align: center; padding: 48px 20px; }
-    .conta-gate h1 { margin-bottom: 8px; }
-    .conta-gate p { color: var(--text-2); max-width: 460px; margin: 0 auto 22px; }
     .fav-empty { color: var(--text-2); padding: 36px 20px; text-align: center; border: 1px dashed var(--border); border-radius: var(--radius); }
     .hidden { display: none !important; }
   </style>
@@ -54,20 +50,12 @@
 
   <main id="main-content" class="page-main">
     <div class="container">
-      <nav class="breadcrumb"><a href="/">Início</a><span class="breadcrumb-sep">›</span><a href="/conta/">Minha conta</a><span class="breadcrumb-sep">›</span><span aria-current="page">Favoritos</span></nav>
+      <nav class="breadcrumb"><a href="/">Início</a><span class="breadcrumb-sep">›</span><a href="/salvos/">Meus salvos</a><span class="breadcrumb-sep">›</span><span aria-current="page">Favoritos</span></nav>
 
-      <div id="gate" class="conta-gate hidden">
-        <h1>Seus favoritos</h1>
-        <p>Entre com sua conta Google e salve calculadoras e artigos com a estrela ⭐ para encontrá-los rapidamente aqui.</p>
-        <button id="gateLogin" class="btn btn-primary">Entrar com Google</button>
-      </div>
-
-      <div id="loading" class="conta-gate"><p>Carregando…</p></div>
-
-      <div id="app" class="hidden">
+      <div id="app">
         <div style="margin-bottom: 6px">
           <h1 class="calc-titulo" style="margin-bottom: 4px">Meus favoritos</h1>
-          <p class="calc-desc-page">As calculadoras e os artigos que você marcou com a estrela.</p>
+          <p class="calc-desc-page">As calculadoras e os artigos que você marcou com a estrela. Tudo fica salvo só neste aparelho (neste navegador).</p>
         </div>
 
         <div id="empty" class="fav-empty hidden"></div>
@@ -97,29 +85,15 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="/shared/jb-supabase.js"></script>
-  <script src="/shared/jb-data.js"></script>
-  <script src="/shared/jb-account.js" defer></script>
-  <script src="/shared/jb-plano.js" defer></script>
+  <script src="/shared/jb-data.js?v=20261016a"></script>
   <script>
   (function () {
     var $ = function (id) { return document.getElementById(id); };
     function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
 
-    function show(state) {
-      $("gate").classList.toggle("hidden", state !== "gate");
-      $("loading").classList.toggle("hidden", state !== "loading");
-      $("app").classList.toggle("hidden", state !== "app");
-    }
 
-    $("gateLogin").addEventListener("click", function () { window.JBAuth.signInWithGoogle(window.location.href); });
 
-    window.JBAuth.ready.then(function (user) {
-      if (!user) { show("gate"); }
-      else { show("app"); load(); }
-    });
-    window.JBAuth.onChange(function (user) { if (!user) show("gate"); });
+    load();
 
     function load() {
       window.JBData.listFavoritos().then(function (res) {
@@ -170,6 +144,6 @@
     }
   })();
   </script>
-  <script src="/assets/js/nav.js?v=20260628c" defer></script>
+  <script src="/assets/js/nav.js?v=20261016a" defer></script>
 </body>
 </html>
