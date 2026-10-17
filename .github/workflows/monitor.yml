@@ -5,106 +5,52 @@ on:
     - cron: '*/15 * * * *'   # a cada 15 minutos
   workflow_dispatch:           # permite rodar manualmente pelo GitHub
 
+permissions:
+  contents: read
+  actions: write   # usado só pelo passo que mantém o agendamento ligado
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
+      # O GitHub desliga agendamentos de repositórios sem commits há 60 dias.
+      # Reativar o workflow a cada execução zera essa contagem.
+      - name: Manter o agendamento ligado
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT repos/${{ github.repository }}/actions/workflows/monitor.yml/enable
+
+      - uses: actions/checkout@v4
+
+      # Confere todas as páginas do sitemap.xml + páginas fora dele + CSS/JS principais.
+      # Se algo falhar, este passo falha, o job fica vermelho e o GitHub manda o e-mail de falha.
       - name: Verificar todas as páginas
         id: check
+        run: bash tools/monitor.sh
+
+      - name: Ver se o e-mail próprio está configurado
+        id: email
+        if: failure()
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
         run: |
-          BASE="https://jornadabrasil.com.br"
-          FAILED=""
-          PASSED=0
-          TOTAL=0
-
-          check_page() {
-            local path="$1"
-            local label="$2"
-            TOTAL=$((TOTAL + 1))
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$BASE$path")
-            if [ "$STATUS" = "200" ] || [ "$STATUS" = "304" ]; then
-              echo "✓ $label ($STATUS)"
-              PASSED=$((PASSED + 1))
-            else
-              echo "✗ $label ($STATUS)"
-              FAILED="$FAILED\n❌ $label → HTTP $STATUS\n   URL: $BASE$path"
-            fi
-          }
-
-          echo "=== CALCULADORAS ==="
-          check_page "/"                    "Página Inicial"
-          check_page "/salario-liquido/"    "Salário Líquido"
-          check_page "/rescisao/"           "Rescisão"
-          check_page "/ferias/"             "Férias"
-          check_page "/decimo-terceiro/"    "13º Salário"
-          check_page "/horas-extras/"       "Horas Extras"
-          check_page "/adicional-noturno/"  "Adicional Noturno"
-          check_page "/seguro-desemprego/"  "Seguro-Desemprego"
-          check_page "/pj-vs-clt/"          "PJ vs CLT"
-          check_page "/auxilio-doenca/"     "Auxílio-Doença"
-          check_page "/salario-maternidade/" "Salário-Maternidade"
-          check_page "/imposto-de-renda/"   "Imposto de Renda"
-
-          echo ""
-          echo "=== BLOG ==="
-          check_page "/blog/"                               "Blog — Índice"
-          check_page "/blog/inss-tabela-2026/"              "Blog — INSS 2026"
-          check_page "/blog/irrf-tabela-2026/"              "Blog — IRRF 2026"
-          check_page "/blog/como-funciona-aviso-previo/"    "Blog — Aviso Prévio"
-          check_page "/blog/clt-vs-pj/"                     "Blog — CLT vs PJ"
-          check_page "/blog/como-calcular-ferias/"          "Blog — Férias"
-          check_page "/blog/seguro-desemprego-como-funciona/" "Blog — Seguro-Desemprego"
-          check_page "/blog/trabalho-noturno/"              "Blog — Trabalho Noturno"
-          check_page "/blog/licenca-maternidade/"           "Blog — Maternidade"
-          check_page "/blog/como-calcular-horas-extras/"   "Blog — Horas Extras"
-          check_page "/blog/auxilio-doenca-inss/"           "Blog — Auxílio-Doença"
-          check_page "/blog/decimo-terceiro-salario/"       "Blog — 13º"
-          check_page "/blog/banco-de-horas/"                "Blog — Banco de Horas"
-          check_page "/blog/como-calcular-rescisao/"        "Blog — Rescisão"
-          check_page "/blog/como-funciona-fgts/"            "Blog — FGTS"
-          check_page "/blog/contrato-de-experiencia/"       "Blog — Contrato de Experiência"
-          check_page "/blog/direitos-do-trabalhador-clt/"   "Blog — Direitos CLT"
-          check_page "/blog/insalubridade/"                 "Blog — Insalubridade"
-          check_page "/blog/jornada-de-trabalho/"           "Blog — Jornada de Trabalho"
-          check_page "/blog/periculosidade/"                "Blog — Periculosidade"
-
-          echo ""
-          echo "=== INSTITUCIONAIS ==="
-          check_page "/sobre/"       "Sobre"
-          check_page "/contato/"     "Contato"
-          check_page "/privacidade/" "Privacidade"
-          check_page "/termos/"      "Termos de Uso"
-          check_page "/cookies/"     "Cookies"
-          check_page "/404.html"     "Página 404"
-
-          echo ""
-          echo "=== ASSETS ==="
-          check_page "/assets/css/style.css"   "CSS Principal"
-          check_page "/assets/js/consent.js"   "JS Consent"
-          check_page "/assets/js/app.js"        "JS App"
-          check_page "/robots.txt"              "robots.txt"
-          check_page "/sitemap.xml"             "sitemap.xml"
-
-          echo ""
-          echo "Resultado: $PASSED / $TOTAL testes passaram"
-
-          if [ -n "$FAILED" ]; then
-            echo "failed=true" >> "$GITHUB_OUTPUT"
-            {
-              echo "details<<ENDOFDETAILS"
-              echo -e "$FAILED"
-              echo "ENDOFDETAILS"
-            } >> "$GITHUB_OUTPUT"
-            echo "summary=$PASSED de $TOTAL testes passaram" >> "$GITHUB_OUTPUT"
+          if [ -n "$MAIL_USERNAME" ] && [ -n "$MAIL_PASSWORD" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
           else
-            echo "failed=false" >> "$GITHUB_OUTPUT"
-            echo "summary=Todos os $TOTAL testes passaram ✓" >> "$GITHUB_OUTPUT"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "Segredos MAIL_USERNAME/MAIL_PASSWORD não configurados: o aviso chega pelo e-mail de falha do próprio GitHub."
           fi
 
       - name: Enviar e-mail de alerta
-        if: steps.check.outputs.failed == 'true'
+        if: failure() && steps.email.outputs.ok == 'true'
         uses: dawidd6/action-send-mail@v4
         with:
           server_address: smtp.gmail.com
@@ -128,10 +74,9 @@ jobs:
 
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             Resumo: ${{ steps.check.outputs.summary }}
-            Horário: ${{ github.event.repository.updated_at }}
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
             Acesse o site: https://jornadabrasil.com.br
-            Ver log completo: https://github.com/${{ github.repository }}/actions
+            Ver esta execução: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             — Monitor automático Jornada Brasil
