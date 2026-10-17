@@ -216,7 +216,9 @@ function rescisao({ bruto, admissao, desligamento, motivo, aviso='indenizado', t
   const diasAviso=Math.min(30+3*anos,90);
   const projeta=(motivo==='sem_justa_causa'&&aviso==='indenizado')||motivo==='acordo';
   const fimProjecao=projeta?addDays(desl,diasAviso):desl;
-  const diasTrabalhadosMes=desl.getDate();
+  // saldo = dias trabalhados no mês da saída (conta a partir da admissão se ela foi no mesmo mês)
+  const mesmoMes=adm.getFullYear()===desl.getFullYear()&&adm.getMonth()===desl.getMonth();
+  const diasTrabalhadosMes=mesmoMes?desl.getDate()-adm.getDate()+1:desl.getDate();
   const saldoSalario=r2((bruto/30)*diasTrabalhadosMes);
   const inicioAno=new Date(desl.getFullYear(),0,1);
   const start13=adm>inicioAno?adm:inicioAno;
@@ -433,12 +435,15 @@ function pjVsClt({
 function auxilioDoenca({ salarioBruto, mesesContrib=12, afastamento=16 }){
   salarioBruto = nz(salarioBruto);
   const salBeneficio = Math.min(r2(salarioBruto), INSS_TETO);
-  const valorBenef = r2(salBeneficio * 0.91);
+  // benefício que substitui o salário nunca é menor que o salário mínimo
+  // (CF, art. 201, § 2º; Lei 8.213/1991, art. 33)
+  const pisoMinimo = r2(salBeneficio * 0.91) < SALARIO_MINIMO;
+  const valorBenef = pisoMinimo ? SALARIO_MINIMO : r2(salBeneficio * 0.91);
   const diasCarencia = 15;
   const diasINSS = Math.max(0, nz(afastamento) - diasCarencia);
   const valorEmpregador = r2((salarioBruto/30)*Math.min(15, nz(afastamento)));
   const valorINSS = diasINSS > 0 ? r2((valorBenef/30)*diasINSS) : 0;
-  return { salBeneficio, valorBenef, diasCarencia, diasINSS, valorEmpregador, valorINSS, mesesContrib:nz(mesesContrib), afastamento:nz(afastamento) };
+  return { salBeneficio, valorBenef, pisoMinimo, diasCarencia, diasINSS, valorEmpregador, valorINSS, mesesContrib:nz(mesesContrib), afastamento:nz(afastamento) };
 }
 
 function salarioMaternidade({ salarioBruto, tipoVinculo='clt', deps=0, duracao=120 }){
@@ -998,7 +1003,9 @@ const CALCS = {
       ]}];
       const memoria=[
         `Salário-de-benefício: limitado ao teto do INSS (${BRL(INSS_TETO)}) → ${BRL(r.salBeneficio)}.`,
-        `Coeficiente B31 = 91% → benefício diário: ${BRL(r.valorBenef)} ÷ 30 = ${BRL(r.valorBenef/30)}.`,
+        r.pisoMinimo
+          ? `Coeficiente B31 = 91% ficaria abaixo do salário mínimo → benefício sobe para ${BRL(r.valorBenef)} (piso constitucional) · por dia: ${BRL(r.valorBenef/30)}.`
+          : `Coeficiente B31 = 91% → benefício diário: ${BRL(r.valorBenef)} ÷ 30 = ${BRL(r.valorBenef/30)}.`,
         `Empregador: primeiros 15 dias = ${BRL(v.salarioBruto)} ÷ 30 × 15 = ${BRL(r.valorEmpregador)}.`,
         r.diasINSS>0?`INSS: ${r.diasINSS} dias × ${BRL(r.valorBenef/30)}/dia = ${BRL(r.valorINSS)}.`:'Menos de 15 dias — tudo pelo empregador.',
       ].filter(Boolean);
@@ -1052,7 +1059,8 @@ const CALCS = {
     calcular(v){
       if(v.rendTrib<=0) return {vazio:true};
       const dedDeps = nz(v.deps) * IRRF_DEP_ANUAL;
-      const despEducLim = Math.min(nz(v.despEduc), 3561.50 * Math.max(1, nz(v.deps)));
+      // limite individual: vale para o titular e para cada dependente (Lei 9.250/1995, art. 8º, II, b)
+      const despEducLim = Math.min(nz(v.despEduc), 3561.50 * (1 + Math.max(0, nz(v.deps))));
       const dedCompleta = r2(nz(v.inssAnual) + dedDeps + nz(v.pensao) + nz(v.despMed) + despEducLim + nz(v.livrosCaixa));
       const simpl = r2(Math.min(v.rendTrib * IRRF_SIMPL_PCT, IRRF_SIMPL_TETO));
       const baseCompleta = r2(Math.max(0, v.rendTrib - dedCompleta));
