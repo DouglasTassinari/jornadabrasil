@@ -1,0 +1,25 @@
+name: Testes — Jornada Brasil
+
+# Roda as contas das calculadoras e a camada de dados a cada envio de código.
+# Se algum teste falhar, o GitHub marca o commit com um X vermelho e avisa por e-mail.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Rodar os testes
+        run: node --test --test-reporter=spec "tools/tests/*.test.cjs" tools/test-decision-tools.cjs
