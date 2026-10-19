@@ -50,6 +50,17 @@ const IRRF_ANUAL_ISENTAO = 60000.00;
 const IRRF_ANUAL_TETO_REDUTOR = 88200.00;
 const IRRF_ANUAL_RED_MAX = 2694.15;
 
+// Jornada mensal padrão usada no divisor da hora (EC 141/2026, art. 6º): 44h semanais (220h)
+// até 15/12/2026, 42h (210h) a partir de 16/12/2026 e 40h (200h) a partir de 16/12/2027.
+// Vale a data do aparelho de quem usa a calculadora; o campo continua editável.
+function jornadaMensalPadrao(hoje = new Date()){
+  if (hoje >= new Date(2027, 11, 16)) return 200;
+  if (hoje >= new Date(2026, 11, 16)) return 210;
+  return 220;
+}
+const JORNADA_PADRAO = jornadaMensalPadrao();
+const DICA_JORNADA = '220h = 44h/semana · 210h = 42h (a partir de 16/12/2026) · 200h = 40h';
+
 // Salário-família 2026 (Portaria Interministerial MPS/MF) — teto de renda próprio, não é o salário mínimo
 const SF_TETO = 1980.38;
 const SF_VALOR = 67.54;
@@ -564,7 +575,7 @@ const CALCS = {
       {id:'desPrevPriv', tipo:'moeda', rot:'Previdência privada (PGBL)', def:'', meia:true, dica:'dedutível no IR'},
       {id:'desPlanoSaude', tipo:'moeda', rot:'Plano de saúde', def:'', meia:true},
       {id:'desOutros', tipo:'moeda', rot:'Outros descontos', def:''},
-      {id:'hJornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:'220', min:1, max:300, dica:'para cálculo das horas extras'},
+      {id:'hJornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:String(JORNADA_PADRAO), min:1, max:300, dica:`para as horas extras · ${DICA_JORNADA}`},
     ],
     calcular(v){
       if(v.bruto<=0) return {vazio:true};
@@ -605,7 +616,7 @@ const CALCS = {
         avisos.push({tipo:'info', txt:`Faixa de transição da Lei 15.270/2025 (${BRL(IRRF_ISENTAO)} a ${BRL(IRRF_TETO_REDUTOR)}): o imposto da tabela (${BRL(r.irrf.impostoApurado)}) foi reduzido em ${BRL(r.irrf.redutor)} — restam ${BRL(r.irrf.valor)}. Nessa faixa, cada real a mais de salário aumenta o IR mais rápido, porque o redutor vai diminuindo.`});
       const memoria=[];
       if(r.heValor50>0 || r.heValor100>0 || r.adicNoturnoValor>0)
-        memoria.push(`Valor da hora: ${BRL(r.bruto)} ÷ ${v.hJornadaMensal||220}h = ${BRL(r.valorHora)}${r.heValor50>0?` · hora extra 50% = ${BRL(r2(r.valorHora*1.5))}`:''}${r.heValor100>0?` · hora extra 100% = ${BRL(r2(r.valorHora*2))}`:''}.`);
+        memoria.push(`Valor da hora: ${BRL(r.bruto)} ÷ ${v.hJornadaMensal||JORNADA_PADRAO}h = ${BRL(r.valorHora)}${r.heValor50>0?` · hora extra 50% = ${BRL(r2(r.valorHora*1.5))}`:''}${r.heValor100>0?` · hora extra 100% = ${BRL(r2(r.valorHora*2))}`:''}.`);
       if(r.adicNoturnoValor>0)
         memoria.push(`Adicional noturno: hora noturna reduzida — ${v.horasNoturnas}h reais × 1,143 = ${r.horasNotComputadas.toFixed(2)}h computadas × ${BRL(r.valorHora)} × 20% = ${BRL(r.adicNoturnoValor)}.`);
       if(r.dsrValor>0)
@@ -761,7 +772,7 @@ const CALCS = {
         {v:'60', t:'60%'},
         {v:'70', t:'70%'},
       ]},
-      {id:'jornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:'220', min:1, max:300, dica:'220h = 44h/semana; 200h = 40h/semana (Súmula 431 do TST)'},
+      {id:'jornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:String(JORNADA_PADRAO), min:1, max:300, dica:DICA_JORNADA},
       {id:'dsr', tipo:'check', rot:'Incluir reflexo no DSR (descanso semanal)', def:true},
       {id:'diasUteis', tipo:'numero', rot:'Dias úteis no mês', def:'25', min:1, max:27, meia:true, showIf:(v)=>v.dsr},
       {id:'domingosFeriados', tipo:'numero', rot:'Domingos + feriados', def:'5', min:1, max:10, meia:true, showIf:(v)=>v.dsr},
@@ -788,7 +799,7 @@ const CALCS = {
     desc:'Calculadora do adicional de 20% para trabalho entre 22h e 5h, com hora noturna reduzida (52min30s).',
     campos:[
       {id:'bruto', tipo:'moeda', rot:'Salário base mensal', def:''},
-      {id:'jornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:'220', min:1, max:300, meia:true},
+      {id:'jornadaMensal', tipo:'numero', rot:'Jornada mensal (horas)', def:String(JORNADA_PADRAO), min:1, max:300, meia:true, dica:DICA_JORNADA},
       {id:'horasNoturnas', tipo:'numero', rot:'Horas noturnas trabalhadas', def:'', min:0, passo:'0.5', meia:true},
       {id:'dsr', tipo:'check', rot:'Incluir reflexo no DSR', def:true},
       {id:'diasUteis', tipo:'numero', rot:'Dias úteis no mês', def:'25', min:1, max:27, meia:true, showIf:(v)=>v.dsr},
@@ -796,7 +807,7 @@ const CALCS = {
     ],
     calcular(v){
       if(v.bruto<=0 || v.horasNoturnas<=0) return {vazio:true};
-      const jornadaMensal = nz(v.jornadaMensal)||220;
+      const jornadaMensal = nz(v.jornadaMensal)||JORNADA_PADRAO;
       const horaBase = r2(v.bruto / jornadaMensal);
       const horasNot = r2(nz(v.horasNoturnas) * (60/52.5));
       const adicPct = 0.20;
@@ -1159,4 +1170,5 @@ window.RCEngine = {
   IRRF_ANUAL_TAB, IRRF_DEP_ANUAL, IRRF_SIMPL_PCT, IRRF_SIMPL_TETO,
   IRRF_ANUAL_ISENTAO, IRRF_ANUAL_TETO_REDUTOR, IRRF_ANUAL_RED_MAX,
   SF_TETO, SF_VALOR,
+  jornadaMensalPadrao, JORNADA_PADRAO,
 };

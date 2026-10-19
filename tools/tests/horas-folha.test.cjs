@@ -125,3 +125,28 @@ test('holerite: salário-família considera a remuneração total, não só o sa
   const r = E.folhaCompleta({ bruto: 1900, comissoes: 200, sfFilhos: 2 });
   assert.equal(r.sfValor, 0);
 });
+
+test('jornada padrão das calculadoras acompanha o fim da 6x1 (EC 141/2026, art. 6º)', () => {
+  // 44h semanais (divisor 220) até 15/12/2026; 42h (210) a partir de 16/12/2026; 40h (200) a partir de 16/12/2027
+  assert.equal(E.jornadaMensalPadrao(new Date(2026, 9, 19)), 220);
+  assert.equal(E.jornadaMensalPadrao(new Date(2026, 11, 15, 23, 59)), 220);
+  assert.equal(E.jornadaMensalPadrao(new Date(2026, 11, 16)), 210);
+  assert.equal(E.jornadaMensalPadrao(new Date(2027, 11, 15, 23, 59)), 210);
+  assert.equal(E.jornadaMensalPadrao(new Date(2027, 11, 16)), 200);
+  assert.equal(E.jornadaMensalPadrao(new Date(2030, 0, 1)), 200);
+  // as três telas que pedem a jornada começam com o valor do dia
+  const def = (calc, id) => E.CALCS[calc].campos.find((c) => c.id === id).def;
+  assert.equal(def('liquido', 'hJornadaMensal'), String(E.jornadaMensalPadrao()));
+  assert.equal(def('horas', 'jornadaMensal'), String(E.jornadaMensalPadrao()));
+  assert.equal(def('noturno', 'jornadaMensal'), String(E.jornadaMensalPadrao()));
+});
+
+test('com 210 horas (42h semanais), a hora e a hora extra ficam mais caras', () => {
+  // 2.200 ÷ 210 = 10,476 → 10,48; hora extra 50% sobre a hora arredondada: 10,48 × 1,5 = 15,72
+  const r = E.horasExtras({ bruto: 2200, jornadaMensal: 210, qtdHoras: 10, percentual: 50 });
+  assert.equal(r.valorHora, 10.48);
+  assert.equal(r.valorHoraExtra, 15.72);
+  assert.equal(r.totalHE, 157.2);
+  // 200 horas (40h semanais): 2.200 ÷ 200 = 11,00; extra 16,50; 10 h = 165,00
+  assert.equal(E.horasExtras({ bruto: 2200, jornadaMensal: 200, qtdHoras: 10, percentual: 50 }).totalHE, 165);
+});
