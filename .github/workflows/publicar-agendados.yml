@@ -1,0 +1,59 @@
+name: Publicar artigos agendados
+
+# Todo dia às 7h (horário de Brasília) publica os artigos de agendados/ cuja data chegou.
+# Antes de enviar, roda os testes; se algo falhar, nada é publicado e o GitHub avisa por e-mail.
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 10h UTC = 7h em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write   # para gravar o artigo publicado
+  pages: write      # para pedir a atualização do site
+  actions: write    # para manter o agendamento ligado
+
+concurrency:
+  group: publicar-agendados
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # O GitHub desliga agendamentos de repositórios sem commits há 60 dias.
+      - name: Manter o agendamento ligado
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT repos/${{ github.repository }}/actions/workflows/publicar-agendados.yml/enable
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Publicar o que chegou na data
+        id: pub
+        run: node tools/publicar-agendados.cjs
+
+      - name: Conferir com os testes
+        if: steps.pub.outputs.publicados != ''
+        run: node --test "tools/tests/*.test.cjs" tools/test-decision-tools.cjs
+
+      - name: Enviar para o site
+        if: steps.pub.outputs.publicados != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publica artigo agendado: ${{ steps.pub.outputs.publicados }}"
+          git push
+
+      - name: Pedir a atualização do GitHub Pages
+        if: steps.pub.outputs.publicados != ''
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST repos/${{ github.repository }}/pages/builds

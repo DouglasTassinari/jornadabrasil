@@ -5,7 +5,7 @@ const root = path.resolve(process.argv[2] || '.');
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    if (entry.name === '.git' || entry.name === 'node_modules') return [];
+    if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'agendados') return [];
     const full = path.join(dir, entry.name);
     return entry.isDirectory() ? walk(full) : [full];
   });

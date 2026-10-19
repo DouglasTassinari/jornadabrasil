@@ -3,6 +3,7 @@
 exclude:
   - check.py
   - tools/
+  - agendados/
   - meu-lucro/README.md
   - meu-lucro/config.example.js
   - meu-lucro/firestore.rules
