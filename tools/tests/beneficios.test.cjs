@@ -6,7 +6,10 @@
 //   de R$ 2.222,18 a R$ 3.703,99   → R$ 1.777,74 + 50% do que passar de R$ 2.222,17
 //   acima de R$ 3.703,99           → R$ 2.518,65 (teto)
 //   nunca abaixo do salário mínimo (R$ 1.621,00).
-// Parcelas (Lei 7.998/1990, art. 4º): 6 a 11 meses → 3; 12 a 23 → 4; 24 ou mais → 5.
+// Carência e parcelas dependem da solicitação (Lei 7.998/1990, art. 3º e art. 4º, § 2º):
+//   1ª: mínimo 12 meses (12–23 → 4 parcelas; 24+ → 5)
+//   2ª: mínimo 9 meses (9–11 → 3; 12–23 → 4; 24+ → 5)
+//   3ª em diante: mínimo 6 meses (6–11 → 3; 12–23 → 4; 24+ → 5)
 //
 // Auxílio-doença (benefício por incapacidade temporária): 91% do salário de benefício
 // (Lei 8.213/1991, art. 61), limitado ao teto do INSS; os 15 primeiros dias são pagos pela
@@ -37,8 +40,8 @@ test('seguro-desemprego faixa 1: 80% da média, com piso no salário mínimo', (
 
 test('seguro-desemprego faixa 2: valor fixo + 50% do excedente', () => {
   // salários 3.000 + 3.200 + 3.466,51 = 9.666,51 ÷ 3 = 3.222,17
-  // 1.777,74 + (3.222,17 − 2.222,17) × 50% = 1.777,74 + 500 = 2.277,74; 6 meses → 3 parcelas
-  const r = E.seguroDesemprego({ s1: 3000, s2: 3200, s3: 3466.51, formalTempo: 6 });
+  // 1.777,74 + (3.222,17 − 2.222,17) × 50% = 1.777,74 + 500 = 2.277,74; 6 meses na 3ª solicitação → 3 parcelas
+  const r = E.seguroDesemprego({ s1: 3000, s2: 3200, s3: 3466.51, formalTempo: 6, solicitacao: 3 });
   assert.equal(r.media, 3222.17);
   assert.equal(r.parcela, 2277.74);
   assert.equal(r.nParcelas, 3);
@@ -54,19 +57,51 @@ test('seguro-desemprego faixa 3: teto de R$ 2.518,65', () => {
   assert.equal(r.total, 12593.25);
 });
 
-test('seguro-desemprego: número de parcelas pelo tempo de trabalho', () => {
-  const n = (meses) => E.seguroDesemprego({ s1: 3000, s2: 3000, s3: 3000, formalTempo: meses }).nParcelas;
-  assert.equal(n(6), 3);
-  assert.equal(n(11), 3);
-  assert.equal(n(12), 4);
-  assert.equal(n(23), 4);
-  assert.equal(n(24), 5);
-  assert.equal(n(60), 5);
+test('seguro-desemprego: carência e parcelas mudam conforme a solicitação', () => {
+  // Lei 7.998/1990, art. 3º (mínimo de meses) e art. 4º, § 2º (parcelas)
+  const n = (solicitacao, meses) =>
+    E.seguroDesemprego({ s1: 3000, s2: 3000, s3: 3000, formalTempo: meses, solicitacao }).nParcelas;
+  // 1ª solicitação: mínimo de 12 meses; 12 a 23 → 4; 24 ou mais → 5
+  assert.equal(n(1, 11), 0);
+  assert.equal(n(1, 12), 4);
+  assert.equal(n(1, 23), 4);
+  assert.equal(n(1, 24), 5);
+  // 2ª solicitação: mínimo de 9 meses; 9 a 11 → 3; 12 a 23 → 4; 24 ou mais → 5
+  assert.equal(n(2, 8), 0);
+  assert.equal(n(2, 9), 3);
+  assert.equal(n(2, 11), 3);
+  assert.equal(n(2, 12), 4);
+  assert.equal(n(2, 24), 5);
+  // 3ª em diante: mínimo de 6 meses; 6 a 11 → 3; 12 a 23 → 4; 24 ou mais → 5
+  assert.equal(n(3, 5), 0);
+  assert.equal(n(3, 6), 3);
+  assert.equal(n(3, 11), 3);
+  assert.equal(n(3, 12), 4);
+  assert.equal(n(3, 60), 5);
 });
 
-test('seguro-desemprego: 1ª e 2ª solicitação exigem mais meses', {
-  todo: 'LIMITAÇÃO: a lei pede 12 meses na 1ª solicitação e 9 na 2ª (Lei 7.998/1990, art. 3º, I). '
-    + 'A calculadora não pergunta qual é a solicitação e aceita 6 meses para todos.',
+test('seguro-desemprego: sem a carência mínima não há parcelas', () => {
+  const r = E.seguroDesemprego({ s1: 3000, s2: 3000, s3: 3000, formalTempo: 10, solicitacao: 1 });
+  assert.equal(r.temDireito, false);
+  assert.equal(r.minimoMeses, 12);
+  assert.equal(r.total, 0);
+  // quem não informa a solicitação é tratado como 1ª (a regra mais exigente)
+  assert.equal(E.seguroDesemprego({ s1: 3000, s2: 3000, s3: 3000, formalTempo: 10 }).nParcelas, 0);
+});
+
+test('seguro-desemprego na tela: pergunta a solicitação e explica a carência', () => {
+  const campo = E.CALCS.seguro.campos.find((c) => c.id === 'solicitacao');
+  assert.deepEqual(campo.opcoes.map((o) => o.v), ['1', '2', '3']);
+  const base = { s1: 2200, s2: 2200, s3: 2200 };
+  // 8 meses na 1ª solicitação: sem direito, com a regra dos 12 meses na mensagem
+  assert.match(E.CALCS.seguro.calcular({ ...base, formalTempo: 8, solicitacao: '1' }).erro, /12 meses/);
+  // 8 meses na 2ª: ainda falta (precisa de 9)
+  assert.match(E.CALCS.seguro.calcular({ ...base, formalTempo: 8, solicitacao: '2' }).erro, /9 meses/);
+  // 8 meses na 3ª: 3 parcelas de 2.200 × 80% = 1.760 → 5.280
+  const r = E.CALCS.seguro.calcular({ ...base, formalTempo: 8, solicitacao: '3' });
+  assert.equal(r.erro, undefined);
+  assert.equal(r.destaque.valor, 5280);
+  assert.equal(r.blocos[0].linhas.length, 3);
 });
 
 test('auxílio-doença: 15 dias pela empresa e o resto pelo INSS', () => {

@@ -13,6 +13,9 @@
 //  - FGTS: multa de 40% e saque total na dispensa sem justa causa (Lei 8.036/1990, art. 18 e
 //    20); no acordo, multa de 20% e saque de até 80% (CLT, art. 484-A); nada na justa causa
 //    nem no pedido de demissão.
+//  - Fim do contrato de experiência (prazo determinado) na data combinada: sem aviso e sem
+//    multa; 13º proporcional (Lei 4.090/1962, art. 1º, § 3º, I), férias proporcionais + 1/3
+//    (CLT, art. 147) e saque do FGTS (Lei 8.036/1990, art. 20, IX).
 //  - INSS/IRRF incidem sobre o saldo de salário e o 13º (em separado). Aviso indenizado,
 //    férias indenizadas + 1/3 e multa do FGTS não pagam INSS nem IR.
 //
@@ -190,17 +193,60 @@ test('datas inválidas devolvem mensagem de erro', () => {
   assert.match(r.erro, /datas/i);
 });
 
-test('término de contrato de experiência', {
-  todo: 'FALTA NO MOTOR: a calculadora de rescisão não tem o motivo "fim do contrato de experiência". '
-    + 'Na data prevista: saldo, 13º e férias proporcionais + 1/3, saque do FGTS, sem aviso e sem multa.',
-}, () => {
-  // 3.000; 02/03/2026 a 30/05/2026 (90 dias). Saldo 30 dias = 3.000; 13º 3/12 = 750;
-  // férias: 02/03 a 30/05 = 2 meses + 29 dias → 3/12 = 750 + 250.
+test('fim do contrato de experiência na data combinada', () => {
+  // 3.000; contrato de 90 dias: 02/03/2026 a 30/05/2026; saldo de FGTS 720.
+  // saldo de salário: 1º a 30/05 = 30 dias → 3.000 ÷ 30 × 30 = 3.000
+  // 13º: março (30 dias), abril e maio (30 dias) = 3/12 → 750
+  // férias: 02/03 → 01/04 (1), 02/04 → 01/05 (2), sobra 02/05 a 30/05 = 29 dias → 3/12
+  //         → 750 + 1/3 = 250
+  // proventos: 3.000 + 750 + 750 + 250 = 4.750
+  // descontos: INSS do saldo (3.000) 248,60 + INSS do 13º (750 × 7,5%) 56,25 = 304,85; sem IR
+  // líquido: 4.445,15 | FGTS: saque de 100% (720), sem multa → total 5.165,15
   const r = E.rescisao({ bruto: 3000, admissao: '2026-03-02', desligamento: '2026-05-30',
-    motivo: 'termino_experiencia', saldoFGTS: 720 });
+    motivo: 'termino_contrato', saldoFGTS: 720 });
+  assert.equal(r.projeta, false);
+  assert.equal(valor(r.proventos, 'Aviso prévio'), undefined);
+  assert.equal(valor(r.proventos, 'Saldo de salário'), 3000);
+  assert.equal(r.avos13, 3);
+  assert.equal(valor(r.proventos, '13º'), 750);
+  assert.equal(r.avosFerias, 3);
+  assert.equal(valor(r.proventos, 'Férias proporcionais'), 750);
+  assert.equal(valor(r.proventos, '1/3 sobre férias proporcionais'), 250);
+  assert.equal(r.totalProventos, 4750);
+  assert.equal(valor(r.descontos, 'INSS sobre 13º'), 56.25);
+  assert.equal(r.totalDescontos, 304.85);
+  assert.equal(r.liquidoRescisao, 4445.15);
   assert.equal(r.fgts.multa, 0);
   assert.equal(r.fgts.saque, 720);
-  assert.equal(valor(r.proventos, 'Aviso prévio'), undefined);
+  assert.equal(r.totalGeral, 5165.15);
+  assert.equal(r.seguroDesemprego, false);
+});
+
+test('fim do contrato de experiência na tela', () => {
+  const motivos = E.CALCS.rescisao.campos.find((c) => c.id === 'motivo').opcoes.map((o) => o.v);
+  assert.ok(motivos.includes('termino_contrato'));
+  // o campo de aviso prévio fica escondido nesse motivo
+  const aviso = E.CALCS.rescisao.campos.find((c) => c.id === 'aviso');
+  assert.equal(aviso.showIf({ motivo: 'termino_contrato' }), false);
+  const tela = E.CALCS.rescisao.calcular({ bruto: 3000, motivo: 'termino_contrato', admissao: '2026-03-02',
+    desligamento: '2026-05-30', aviso: 'indenizado', saldoFGTS: 720, temFeriasVencidas: false, diasFeriasVencidas: 30 });
+  assert.equal(tela.destaque.valor, 5165.15);
+  assert.ok(tela.avisos.some((a) => a.txt.includes('479 e 480')));
+  assert.ok(tela.memoria.includes('Sem aviso prévio neste motivo de desligamento.'));
+});
+
+test('aviso "não cumprido" esquecido na tela não desconta onde não existe aviso', () => {
+  // o campo de aviso some na justa causa e no fim de contrato, mas o valor antigo pode ficar guardado
+  for (const motivo of ['justa_causa', 'termino_contrato', 'acordo']) {
+    const r = E.rescisao({ bruto: 3000, admissao: '2025-03-02', desligamento: '2026-05-30',
+      motivo, aviso: 'nao_cumprido', saldoFGTS: 0 });
+    assert.equal(valor(r.descontos, 'Aviso prévio não cumprido'), undefined, motivo);
+  }
+});
+
+test('motivo desconhecido devolve mensagem em vez de quebrar', () => {
+  const r = E.rescisao({ bruto: 3000, admissao: '2026-03-02', desligamento: '2026-05-30', motivo: 'outro' });
+  assert.match(r.erro, /motivo/i);
 });
 
 test('aviso indenizado que projeta a saída para o ano seguinte', {

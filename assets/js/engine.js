@@ -230,11 +230,17 @@ function rescisao({ bruto, admissao, desligamento, motivo, aviso='indenizado', t
     pedido:         { saldo:true, aviso:'desconto',   d13:true, feriasProp:true, feriasVenc:true, multaPct:0,    saquePct:0,    seguro:false },
     justa_causa:    { saldo:true, aviso:'nenhum',     d13:false,feriasProp:false,feriasVenc:true, multaPct:0,    saquePct:0,    seguro:false },
     acordo:         { saldo:true, aviso:'metade',     d13:true, feriasProp:true, feriasVenc:true, multaPct:0.20, saquePct:0.80, seguro:false },
+    // fim do contrato de experiência (ou outro prazo determinado) na data combinada: sem aviso
+    // e sem multa; 13º e férias proporcionais (Lei 4.090/1962, art. 1º, § 3º, I; CLT, art. 147)
+    // e saque do FGTS (Lei 8.036/1990, art. 20, IX)
+    termino_contrato:{ saldo:true, aviso:'nenhum',    d13:true, feriasProp:true, feriasVenc:true, multaPct:0,    saquePct:1.00, seguro:false },
   }[motivo];
+  if(!devido) return { erro:'Escolha o motivo do desligamento.' };
   let avisoValor=0, avisoDesconto=0;
   const avisoBase=r2((bruto/30)*diasAviso);
   if(motivo==='acordo') avisoValor=r2(avisoBase/2);
-  else if(aviso==='nao_cumprido') avisoDesconto=r2((bruto/30)*30);
+  // só há aviso a descontar onde existe aviso (não na justa causa nem no fim do contrato)
+  else if(aviso==='nao_cumprido' && (motivo==='pedido' || motivo==='sem_justa_causa')) avisoDesconto=r2((bruto/30)*30);
   else if(motivo==='sem_justa_causa' && aviso==='indenizado') avisoValor=avisoBase;
   const d13Bruto=devido.d13?r2((bruto/12)*avos13):0;
   const inss13=calcINSS(d13Bruto);
@@ -339,7 +345,11 @@ function folhaCompleta({ bruto, deps=0, pensao=0,
   };
 }
 
-function seguroDesemprego({ s1, s2, s3, formalTempo }){
+// Meses mínimos de carteira assinada por solicitação (Lei 7.998/1990, art. 3º, I):
+// 1ª = 12 meses nos últimos 18; 2ª = 9 meses nos últimos 12; 3ª em diante = os 6 meses anteriores.
+const SD_MIN_MESES = { 1:12, 2:9, 3:6 };
+
+function seguroDesemprego({ s1, s2, s3, formalTempo, solicitacao=1 }){
   const media = r2((nz(s1)+nz(s2)+nz(s3))/3);
   let parcela;
   if(media <= 2222.17)      parcela = r2(media * 0.80);
@@ -347,12 +357,14 @@ function seguroDesemprego({ s1, s2, s3, formalTempo }){
   else                      parcela = 2518.65;
   parcela = Math.max(parcela, SALARIO_MINIMO);
   parcela = r2(parcela);
-  let nParcelas = 3;
+  const sol = Math.min(3, Math.max(1, Math.round(nz(solicitacao)) || 1));
+  const minimoMeses = SD_MIN_MESES[sol];
   const m = nz(formalTempo);
-  if(m >= 6  && m <= 11)  nParcelas = 3;
-  else if(m >= 12 && m <= 23) nParcelas = 4;
-  else if(m >= 24)         nParcelas = 5;
-  return { media, parcela, nParcelas, total:r2(parcela*nParcelas) };
+  const temDireito = m >= minimoMeses;
+  // parcelas (Lei 7.998/1990, art. 4º, § 2º): 24+ meses → 5; 12 a 23 → 4; abaixo de 12 → 3
+  // (3 parcelas só existem a partir da 2ª solicitação, porque a 1ª já exige 12 meses)
+  const nParcelas = !temDireito ? 0 : (m >= 24 ? 5 : (m >= 12 ? 4 : 3));
+  return { media, parcela, nParcelas, total:r2(parcela*nParcelas), solicitacao:sol, minimoMeses, temDireito };
 }
 
 function pjVsClt({
@@ -619,6 +631,7 @@ const CALCS = {
         {v:'pedido', t:'Pedido de demissão'},
         {v:'acordo', t:'Acordo entre as partes'},
         {v:'justa_causa', t:'Dispensa por justa causa'},
+        {v:'termino_contrato', t:'Fim do contrato de experiência (na data combinada)'},
       ]},
       {id:'admissao', tipo:'data', rot:'Admissão', def:'', meia:true},
       {id:'desligamento', tipo:'data', rot:'Desligamento', def:'', meia:true},
@@ -654,10 +667,13 @@ const CALCS = {
       if(r.seguroDesemprego) avisos.push({tipo:'info', txt:'Pode haver direito ao seguro-desemprego, conforme tempo de vínculo e parcelas já recebidas.'});
       if(r.fgts.estimado && r.fgts.base>0) avisos.push({tipo:'warn', txt:`Saldo de FGTS estimado em ${BRL(r.fgts.base)} (8% × salário × ${r.totalMeses} meses). Informe o saldo real para mais precisão.`});
       if(v.motivo==='justa_causa') avisos.push({tipo:'warn', txt:'Na justa causa não há aviso, 13º proporcional, férias proporcionais, saque ou multa do FGTS.'});
+      if(v.motivo==='termino_contrato') avisos.push({tipo:'info', txt:'Fim do contrato de experiência na data combinada: não há aviso prévio nem multa de 40% do FGTS, mas o saque do FGTS é liberado. Em regra, não dá direito ao seguro-desemprego (que é para dispensa sem justa causa). Se o contrato acabou antes da data prevista, há indenizações próprias (CLT, arts. 479 e 480) que esta conta não inclui.'});
       avisos.push({tipo:'info', txt:'IR e INSS incidem apenas sobre o saldo de salário e o 13º proporcional. Aviso indenizado, férias + 1/3 e multa do FGTS são isentos. Pela isenção de 2026 (até R$ 5.000), parcelas menores costumam ficar sem IR.'});
       const memoria=[
         `Tempo de casa: ${r.anos} ano(s) completo(s) · ${r.totalMeses} meses de vínculo.`,
-        `Aviso prévio: 30 + 3 × ${r.anos} = ${r.diasAviso} dias (Lei 12.506/2011, limite de 90).`,
+        (v.motivo==='justa_causa' || v.motivo==='termino_contrato')
+          ? 'Sem aviso prévio neste motivo de desligamento.'
+          : `Aviso prévio: 30 + 3 × ${r.anos} = ${r.diasAviso} dias (Lei 12.506/2011, limite de 90).`,
         r.projeta ? `Aviso indenizado projeta o contrato em ${r.diasAviso} dias para contar os avos.` : `Sem projeção de aviso sobre os avos.`,
         `Avos: 13º conta ${r.avos13}/12 (mês do calendário com 15+ dias) e férias ${r.avosFerias}/12 (meses desde o início do período aquisitivo; fração acima de 14 dias conta — CLT, art. 146).`,
       ];
@@ -808,12 +824,22 @@ const CALCS = {
       {id:'s1', tipo:'moeda', rot:'Salário do último mês', def:''},
       {id:'s2', tipo:'moeda', rot:'Penúltimo mês', def:'', meia:true},
       {id:'s3', tipo:'moeda', rot:'Antepenúltimo mês', def:'', meia:true},
-      {id:'formalTempo', tipo:'numero', rot:'Meses trabalhados no último emprego', def:'12', min:0, dica:'mín. 6 meses para ter direito'},
+      {id:'solicitacao', tipo:'select', rot:'Solicitação do seguro-desemprego', def:'1', opcoes:[
+        {v:'1', t:'Primeira solicitação'},
+        {v:'2', t:'Segunda solicitação'},
+        {v:'3', t:'Terceira ou posterior'},
+      ]},
+      {id:'formalTempo', tipo:'numero', rot:'Meses trabalhados com carteira assinada', def:'12', min:0, dica:'1ª vez: mín. 12 meses · 2ª: 9 · 3ª ou mais: 6'},
     ],
     calcular(v){
       if(v.s1<=0) return {vazio:true};
-      if(v.formalTempo < 6) return { erro:'São necessários pelo menos 6 meses de vínculo formal para ter direito ao seguro-desemprego.' };
-      const r = seguroDesemprego({ s1:v.s1, s2:v.s2||v.s1, s3:v.s3||v.s1, formalTempo:v.formalTempo });
+      const r = seguroDesemprego({ s1:v.s1, s2:v.s2||v.s1, s3:v.s3||v.s1, formalTempo:v.formalTempo, solicitacao:Number(v.solicitacao)||1 });
+      if(!r.temDireito) return { erro:[
+        '',
+        'Na primeira solicitação é preciso ter trabalhado com carteira assinada pelo menos 12 meses nos últimos 18 meses antes da demissão (Lei 7.998/1990, art. 3º).',
+        'Na segunda solicitação é preciso ter trabalhado com carteira assinada pelo menos 9 meses nos últimos 12 meses antes da demissão (Lei 7.998/1990, art. 3º).',
+        'A partir da terceira solicitação é preciso ter trabalhado com carteira assinada nos 6 meses imediatamente anteriores à demissão (Lei 7.998/1990, art. 3º).',
+      ][r.solicitacao] };
       const blocos=[{titulo:`${r.nParcelas} parcelas`, linhas:Array.from({length:r.nParcelas},(_,i)=>({nome:`${i+1}ª parcela`, valor:r.parcela, pos:true}))}];
       const memoria=[
         `Média salarial: (${BRL(v.s1)} + ${BRL(v.s2||v.s1)} + ${BRL(v.s3||v.s1)}) ÷ 3 = ${BRL(r.media)}.`,
@@ -822,7 +848,7 @@ const CALCS = {
           : r.media<=3703.99
           ? `Faixa 2: R$ 1.777,74 + (${BRL(r.media)} − R$ 2.222,17) × 50% = ${BRL(r.parcela)}.`
           : `Faixa 3 (acima de R$ 3.703,99): parcela máxima de ${BRL(r.parcela)}.`,
-        `Número de parcelas: ${r.nParcelas} (${v.formalTempo} meses de vínculo).`,
+        `Número de parcelas: ${r.nParcelas} (${v.formalTempo} meses de carteira assinada, ${['','primeira','segunda','terceira ou posterior'][r.solicitacao]} solicitação — Lei 7.998/1990, art. 4º).`,
         'O benefício não pode ser inferior ao salário mínimo.',
       ];
       return { proventos:[], descontos:[], blocos, destaque:{label:'Total do seguro', sub:`${r.nParcelas} parcelas de ${BRL(r.parcela)}`, valor:r.total}, memoria, avisos:[{tipo:'info', txt:'Valores sem dedução de IR (seguro-desemprego é isento de IRRF).'}] };
