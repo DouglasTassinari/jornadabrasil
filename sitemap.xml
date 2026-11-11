@@ -31,6 +31,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Quinto dia útil (prazo do salário) -->
+  <url>
+    <loc>https://jornadabrasil.com.br/quinto-dia-util/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Calculadora da escala 6x1 para 5x2 (fim da 6x1) -->
   <url>
     <loc>https://jornadabrasil.com.br/calculadora-escala-6x1/</loc>
@@ -98,7 +106,7 @@
   </url>
   <url>
     <loc>https://jornadabrasil.com.br/decimo-terceiro/</loc>
-    <lastmod>2026-09-21</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
