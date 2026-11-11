@@ -13,7 +13,8 @@
  *   2. coloca o endereço no sitemap.xml;
  *   3. põe o card no topo de /blog/ e atualiza os "Últimos artigos" da home;
  *   4. acrescenta o link no mapa do site;
- *   5. atualiza a caixa "Série" de todos os artigos da mesma série.
+ *   5. atualiza a caixa "Série" de todos os artigos da mesma série;
+ *   6. refaz o feed RSS do blog (feed.xml, via tools/gerar-feed.cjs).
  *
  * Uso: node tools/publicar-agendados.cjs
  * Variáveis opcionais: HOJE=AAAA-MM-DD (simula outra data), JB_RAIZ=pasta do site.
@@ -166,7 +167,10 @@ function publicar(raiz, meta) {
 function executar(raiz, hoje) {
   const devidos = lerAgendados(raiz).filter((m) => m.publicar_em <= hoje);
   for (const meta of devidos) publicar(raiz, meta);
-  if (devidos.length) naHome(raiz);
+  if (devidos.length) {
+    naHome(raiz);
+    require('./gerar-feed.cjs').gerarFeed(raiz);
+  }
   atualizarSeries(raiz);
   return devidos.map((m) => m.slug);
 }

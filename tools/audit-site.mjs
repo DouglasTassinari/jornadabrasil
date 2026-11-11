@@ -62,9 +62,14 @@ for (const file of htmlFiles) {
   const hasStaticAds = /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/i.test(html);
   const hasAdsenseMeta = /name=["']google-adsense-account["']/i.test(html);
   const isBlogArticle = /^\/blog\/[^/]+\/$/.test(route);
+  // Bloco de autoria e fontes: vale o bloco escrito no HTML (com ao menos uma fonte com link),
+  // que o Google e as IAs leem sem rodar JavaScript; o formato antigo, montado por
+  // assets/js/article-trust.js, continua aceito.
+  const trustSources = html.match(/class=["'][^"']*\barticle-trust__sources\b[^"']*["'][\s\S]*?<\/ul>/i);
   const hasArticleTrust = /class=["'][^"']*\barticle-trust\b[^"']*["']/i.test(html)
-    && /data-article-sources/i.test(html)
-    && /article-trust\.js/i.test(html);
+    && /rel=["']author["']/i.test(html)
+    && ((trustSources && /<li>\s*<a\s[^>]*href=/i.test(trustSources[0]))
+      || (/data-article-sources/i.test(html) && /article-trust\.js/i.test(html)));
 
   if (!title) errors.push(`${route}: title ausente`);
   if (indexable && !description) errors.push(`${route}: description ausente`);

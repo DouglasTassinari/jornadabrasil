@@ -1,0 +1,57 @@
+# Jornada Brasil
+
+> Calculadoras e guias gratuitos sobre direitos trabalhistas no Brasil (CLT), com as regras e tabelas oficiais de 2026: salário líquido, rescisão, férias, 13º salário, horas extras, seguro-desemprego, fim da escala 6x1 e quinto dia útil.
+
+Conteúdo em português do Brasil, criado por Douglas Tassinari. As contas seguem a Constituição, a CLT e as tabelas oficiais (Receita Federal, INSS, Ministério do Trabalho e Emprego). Cada página cita as fontes e mostra a data de atualização. Os resultados são estimativas educativas e não substituem orientação jurídica.
+
+Fatos atuais mais procurados (atualizado em 11/11/2026):
+- Fim da escala 6x1 (Emenda Constitucional 141/2026): a partir de 16/12/2026, 2 dias de descanso por semana e no máximo 42 horas semanais; a partir de 16/12/2027, 40 horas, sem redução de salário. Na 6x1 com 44 horas, 30 dias de férias e 9 feriados, são cerca de 279 dias de trabalho por ano; na 5x2, cerca de 233 (46 dias a mais de folga).
+- 13º salário de 2026: 1ª parcela até 30/11/2026 e 2ª até 18/12/2026 (o dia 20 cai num domingo).
+- Quinto dia útil: o sábado conta e domingos e feriados não. Dezembro de 2026 cai no sábado, 5/12; janeiro de 2027 na quinta-feira, 7/1.
+- Em 2026, quem ganha até R$ 5.000 por mês não paga imposto de renda na fonte (Lei 15.270/2025). O salário mínimo é de R$ 1.621,00.
+
+## Calculadoras
+- [Calculadora da escala 6x1 para 5x2](https://jornadabrasil.com.br/calculadora-escala-6x1/): dias de trabalho e de folga por ano na 6x1, na 5x2 e na 12x36, horas a menos com 42 e 40 horas e o novo valor da hora.
+- [Quinto dia útil](https://jornadabrasil.com.br/quinto-dia-util/): data-limite do pagamento do salário em cada mês de 2026 e 2027 (CLT, art. 459), com feriados locais.
+- [Salário líquido 2026](https://jornadabrasil.com.br/salario-liquido/): INSS e IRRF de 2026 com a isenção até R$ 5.000.
+- [Rescisão](https://jornadabrasil.com.br/rescisao/): verbas da demissão por motivo, aviso prévio proporcional e FGTS.
+- [Férias](https://jornadabrasil.com.br/ferias/): férias com 1/3 e venda de até 10 dias.
+- [13º salário](https://jornadabrasil.com.br/decimo-terceiro/): 13º proporcional, 1ª e 2ª parcelas de 2026.
+- [Horas extras](https://jornadabrasil.com.br/horas-extras/): adicional de 50% e 100%, divisores 220, 210 e 200 e reflexo no DSR.
+- [Adicional noturno](https://jornadabrasil.com.br/adicional-noturno/): 20% com hora noturna reduzida.
+- [Seguro-desemprego](https://jornadabrasil.com.br/seguro-desemprego/): número de parcelas e valor pela tabela de 2026.
+- [PJ vs CLT](https://jornadabrasil.com.br/pj-vs-clt/): compara uma proposta PJ com o salário CLT.
+- [Imposto de Renda](https://jornadabrasil.com.br/imposto-de-renda/): simulação do IR de 2026 (declaração de 2027).
+- [Auxílio-doença](https://jornadabrasil.com.br/auxilio-doenca/) e [salário-maternidade](https://jornadabrasil.com.br/salario-maternidade/): benefícios do INSS.
+- [Comparador de propostas de emprego](https://jornadabrasil.com.br/comparar-propostas/) e [guia de demissão](https://jornadabrasil.com.br/guia-demissao/).
+- [Tabelas oficiais 2026](https://jornadabrasil.com.br/tabelas/): INSS, IRRF, salário mínimo, FGTS e seguro-desemprego.
+
+## Guias principais
+- [Fim da escala 6x1: o que muda, quando começa e se foi adiada](https://jornadabrasil.com.br/blog/fim-da-escala-6x1/)
+- [Exceções do fim da 6x1](https://jornadabrasil.com.br/blog/excecoes-fim-da-6x1/)
+- [Hora extra com o fim da 6x1](https://jornadabrasil.com.br/blog/hora-extra-fim-da-6x1/)
+- [Fim da 6x1 por setor](https://jornadabrasil.com.br/blog/fim-da-6x1-por-setor/)
+- [Fim da 6x1 e o salário](https://jornadabrasil.com.br/blog/fim-da-6x1-salario/)
+- [13º de 2026 e a isenção do IR](https://jornadabrasil.com.br/blog/decimo-terceiro-2026-isencao-ir/)
+- [Como calcular a rescisão](https://jornadabrasil.com.br/blog/como-calcular-rescisao/)
+- [Como calcular o salário líquido](https://jornadabrasil.com.br/blog/como-calcular-salario-liquido/)
+- [Como calcular as férias](https://jornadabrasil.com.br/blog/como-calcular-ferias/)
+- [Seguro-desemprego: como funciona](https://jornadabrasil.com.br/blog/seguro-desemprego-como-funciona/)
+- [Como funciona o FGTS](https://jornadabrasil.com.br/blog/como-funciona-fgts/)
+- [CLT ou PJ](https://jornadabrasil.com.br/blog/clt-vs-pj/)
+- [Direitos do trabalhador CLT](https://jornadabrasil.com.br/blog/direitos-do-trabalhador-clt/)
+
+## Dados para citar
+- [Números do trabalho no Brasil](https://jornadabrasil.com.br/dados/): fim da 6x1, quinto dia útil, 13º e salário líquido de 2026, com metodologia, prontos para citar com a fonte.
+
+## Sobre
+- [Sobre o Jornada Brasil](https://jornadabrasil.com.br/sobre/)
+- [Autor: Douglas Tassinari](https://jornadabrasil.com.br/autor/douglas-tassinari/)
+- [Metodologia das calculadoras](https://jornadabrasil.com.br/metodologia/)
+- [Política editorial](https://jornadabrasil.com.br/politica-editorial/)
+- [Mapa do site](https://jornadabrasil.com.br/mapa-do-site/)
+- [Feed RSS do blog](https://jornadabrasil.com.br/feed.xml)
+
+## Optional
+- [Blog com todos os guias](https://jornadabrasil.com.br/blog/)
+- [Contato](https://jornadabrasil.com.br/contato/)
