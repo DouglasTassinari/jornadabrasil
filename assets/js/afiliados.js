@@ -68,6 +68,16 @@
       url: 'https://lmdee.link/g6mthKAOq2pI',
       paginas: ['/blog/direitos-do-trabalhador-clt/', '/blog/jornada-de-trabalho/', '/blog/fim-da-escala-6x1/', '/blog/como-calcular-rescisao/'],
     },
+    {
+      id: 'motorista-pedagio',
+      ativo: true,
+      rede: 'Lomadee (Sem Parar)',
+      titulo: 'Roda muito de carro para trabalhar?',
+      texto: 'Pedágio e estacionamento pesam no lucro de quem dirige todo dia. A tag automática pode ajudar a controlar esses gastos.',
+      cta: 'Conhecer a tag de pedágio',
+      url: 'https://lmdee.link/1ZcoSrDk6Bp9',
+      paginas: ['/blog/quanto-ganha-motorista-aplicativo/', '/meu-lucro/'],
+    },
   ];
 
   function ligados() {
