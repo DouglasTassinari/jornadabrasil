@@ -19,6 +19,17 @@
 
   var AFILIADOS = [
     {
+      id: 'tazzin-contato',
+      ativo: true,
+      proprio: true,
+      rede: 'Tazzin (serviço do autor do site)',
+      titulo: 'Controle da sua empresa ainda vive em planilhas?',
+      texto: 'A Tazzin cria sistemas de gestão sob medida para indústrias e empresas: menos planilhas, mais controle. Conte qual controle mais dói hoje e receba uma ideia de por onde começar.',
+      cta: 'Conversar com a Tazzin',
+      url: 'https://douglastassinari.github.io/tazzin-site/contato/',
+      paginas: ['/horas-extras/', '/adicional-noturno/', '/blog/banco-de-horas/', '/blog/como-calcular-horas-extras/', '/blog/trabalho-noturno/', '/blog/como-calcular-margem-de-lucro/', '/calcular-preco/'],
+    },
+    {
       id: 'contabilidade-mei-pj',
       ativo: false,
       rede: 'a definir (Awin, Lomadee ou programa próprio)',
@@ -94,11 +105,11 @@
 
   function html(a) {
     return '<aside class="jb-afiliado" aria-label="Publicidade" style="margin:28px 0;padding:16px 18px;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius-sm);background:var(--surface)">' +
-      '<p style="margin:0 0 6px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);font-weight:700">Publicidade · link de afiliado</p>' +
+      '<p style="margin:0 0 6px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);font-weight:700">' + (a.proprio ? 'Divulgação · serviço do autor do site' : 'Publicidade · link de afiliado') + '</p>' +
       '<h2 style="margin:0 0 6px;font-size:1.05rem">' + esc(a.titulo) + '</h2>' +
       '<p style="margin:0 0 12px;font-size:.92rem;line-height:1.55;color:var(--text)">' + esc(a.texto) + '</p>' +
-      '<a class="btn btn-primary" href="' + esc(a.url) + '" target="_blank" rel="sponsored nofollow noopener" data-afiliado="' + esc(a.id) + '">' + esc(a.cta) + ' →</a>' +
-      '<p style="margin:10px 0 0;font-size:.78rem;color:var(--text-2)">Se você contratar por este link, o Jornada Brasil pode receber uma comissão, sem custo extra para você. <a href="/publicidade/" style="color:var(--accent-text)">Como funciona</a>.</p>' +
+      '<a class="btn btn-primary" href="' + esc(a.url) + '" target="_blank" rel="' + (a.proprio ? 'noopener' : 'sponsored nofollow noopener') + '" data-afiliado="' + esc(a.id) + '">' + esc(a.cta) + ' →</a>' +
+      '<p style="margin:10px 0 0;font-size:.78rem;color:var(--text-2)">' + (a.proprio ? 'A Tazzin é um negócio do mesmo autor do Jornada Brasil.' : 'Se você contratar por este link, o Jornada Brasil pode receber uma comissão, sem custo extra para você.') + ' <a href="/publicidade/" style="color:var(--accent-text)">Como funciona</a>.</p>' +
       '</aside>';
   }
 
