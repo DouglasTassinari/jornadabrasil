@@ -40,13 +40,13 @@
     },
     {
       id: 'recolocacao-demitido',
-      ativo: false,
-      rede: 'a definir (Hotmart, Awin ou Lomadee)',
+      ativo: false, // ligar quando a Hotmart aprovar a afiliação ao PPMT (pedida em 16/11/2026) e o link estiver em "url"
+      rede: 'Hotmart (PPMT - Preparatório Para o Mercado de Trabalho, comissão de 45%)',
       titulo: 'Foi demitido ou vai trocar de emprego?',
-      texto: 'Cursos e materiais de currículo e entrevista podem acelerar a volta ao mercado enquanto você recebe o seguro-desemprego.',
-      cta: 'Ver cursos de recolocação',
+      texto: 'Curso criado por uma profissional de RH, com foco em currículo, entrevista e processo seletivo, para quem precisa voltar ao mercado.',
+      cta: 'Conhecer o preparatório para o mercado de trabalho',
       url: '',
-      paginas: ['/rescisao/', '/seguro-desemprego/', '/guia-demissao/', '/blog/demissao-sem-justa-causa/', '/blog/como-calcular-rescisao/', '/blog/seguro-desemprego-como-funciona/'],
+      paginas: ['/rescisao/', '/seguro-desemprego/', '/guia-demissao/', '/blog/demissao-sem-justa-causa/', '/blog/seguro-desemprego-como-funciona/'],
     },
     {
       id: 'declaracao-imposto-de-renda',
