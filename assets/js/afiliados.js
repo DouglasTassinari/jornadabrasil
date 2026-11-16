@@ -60,13 +60,13 @@
     },
     {
       id: 'livros-clt-financas',
-      ativo: false,
-      rede: 'Programa Associados da Amazon (ou Lomadee)',
-      titulo: 'Quer se aprofundar em direitos e finanças?',
-      texto: 'Livros sobre direito do trabalho e educação financeira, para ler com calma e consultar sempre que precisar.',
-      cta: 'Ver livros recomendados',
-      url: '',
-      paginas: ['/blog/direitos-do-trabalhador-clt/', '/blog/jornada-de-trabalho/', '/blog/fim-da-escala-6x1/', '/blog/orcamento-50-30-20/'],
+      ativo: true,
+      rede: 'Lomadee (Editora Foco)',
+      titulo: 'Quer estudar direito do trabalho a fundo?',
+      texto: 'Livros jurídicos e de legislação para estudar a CLT com calma e consultar sempre que precisar.',
+      cta: 'Ver livros da Editora Foco',
+      url: 'https://lmdee.link/g6mthKAOq2pI',
+      paginas: ['/blog/direitos-do-trabalhador-clt/', '/blog/jornada-de-trabalho/', '/blog/fim-da-escala-6x1/', '/blog/como-calcular-rescisao/'],
     },
   ];
 
