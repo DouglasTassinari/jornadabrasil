@@ -21,6 +21,7 @@ Fatos atuais mais procurados (atualizado em 16/11/2026):
 - [Adicional noturno](https://jornadabrasil.com.br/adicional-noturno/): 20% com hora noturna reduzida.
 - [Seguro-desemprego](https://jornadabrasil.com.br/seguro-desemprego/): número de parcelas e valor pela tabela de 2026.
 - [PJ vs CLT](https://jornadabrasil.com.br/pj-vs-clt/): compara uma proposta PJ com o salário CLT.
+- [Imposto de Renda com salário, férias e 13º](https://jornadabrasil.com.br/imposto-de-renda-salario/): digite o salário e veja, em linguagem simples, o desconto no mês, nas férias e no 13º e se há restituição (exemplo: R$ 4.900 por mês → cerca de R$ 464 de restituição).
 - [Imposto de Renda](https://jornadabrasil.com.br/imposto-de-renda/): simulação do IR de 2026 (declaração de 2027).
 - [Auxílio-doença](https://jornadabrasil.com.br/auxilio-doenca/) e [salário-maternidade](https://jornadabrasil.com.br/salario-maternidade/): benefícios do INSS.
 - [Comparador de propostas de emprego](https://jornadabrasil.com.br/comparar-propostas/) e [guia de demissão](https://jornadabrasil.com.br/guia-demissao/).
