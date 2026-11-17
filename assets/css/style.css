@@ -972,3 +972,12 @@ details.memoria[open] summary .chev { transform: rotate(180deg); }
 .footer-author a { color: inherit; text-decoration: underline; }
 .autor-guias li { margin-bottom: .35rem; }
 .autor-guia-data { color: var(--text-2); font-size: .85rem; }
+
+/* ---- Imagens de capa (blog) ---- */
+.blog-card { overflow: hidden; }
+.blog-card-img { display: block; margin: -24px -24px 6px; line-height: 0; background: var(--primary-bg); }
+.blog-card-img img { width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; display: block; }
+.article-cover { margin: 0 0 28px; border-radius: var(--radius); overflow: hidden; line-height: 0; box-shadow: var(--shadow-sm); }
+.article-cover img { width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; display: block; }
+.page-banner { max-width: 760px; margin: 28px auto 0; border-radius: var(--radius); overflow: hidden; line-height: 0; box-shadow: var(--shadow-sm); }
+.page-banner img { width: 100%; height: auto; aspect-ratio: 1200 / 400; object-fit: cover; display: block; }
