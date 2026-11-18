@@ -984,3 +984,16 @@ details.memoria[open] summary .chev { transform: rotate(180deg); }
 
 .page-banner--slim { max-width: 100%; margin: 18px 0 8px; }
 .page-banner--slim img { aspect-ratio: 1200 / 300; object-fit: cover; width: 100%; }
+
+/* ---- Fotos nos cards da home e destaque no blog ---- */
+.calc-card { overflow: hidden; }
+.calc-card-photo { display: block; margin: -20px -20px 4px; line-height: 0; background: var(--primary-bg); }
+.calc-card-photo img { width: 100%; height: auto; aspect-ratio: 16 / 8; object-fit: cover; display: block; }
+.calc-card--featured .calc-card-photo { margin: -20px -20px 4px; }
+.calc-card--featured .calc-card-photo img { aspect-ratio: 16 / 6; }
+@media (min-width: 700px) {
+  .blog-grid:not([data-latest-posts]) > .blog-card:first-child { grid-column: span 2; }
+  .blog-grid:not([data-latest-posts]) > .blog-card:first-child .blog-card-img img { aspect-ratio: 16 / 7; }
+  .blog-grid:not([data-latest-posts]) > .blog-card:first-child h3 { font-size: 1.3rem; }
+  .blog-grid:not([data-latest-posts]) > .blog-card:first-child .blog-card-excerpt { font-size: .95rem; }
+}
