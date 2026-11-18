@@ -56,10 +56,14 @@ function lerAgendados(raiz) {
     .sort((a, b) => a.publicar_em.localeCompare(b.publicar_em) || a.slug.localeCompare(b.slug));
 }
 
-function cardHtml(meta) {
+function cardHtml(meta, raiz) {
   const [ano, mes] = meta.publicar_em.split('-');
+  // foto de capa: assets/img/blog/<slug>.webp (se existir, o card ganha a imagem)
+  const temFoto = raiz && fs.existsSync(path.join(raiz, 'assets', 'img', 'blog', `${meta.slug}.webp`));
+  const foto = temFoto ? `          <a class="blog-card-img" href="/blog/${meta.slug}/" tabindex="-1" aria-hidden="true"><img src="/assets/img/blog/${meta.slug}.webp" alt="" width="1200" height="630" loading="lazy" decoding="async"></a>
+` : '';
   return `        <div class="blog-card">
-          <span class="blog-card-tag">${meta.card.tag}</span>
+${foto}          <span class="blog-card-tag">${meta.card.tag}</span>
           <h3><a href="/blog/${meta.slug}/">${meta.card.titulo}</a></h3>
           <p class="blog-card-excerpt">${meta.card.resumo}</p>
           <span class="blog-card-date"><time datetime="${meta.publicar_em}">${MESES[Number(mes) - 1]}/${ano}</time></span>
@@ -80,7 +84,7 @@ function noBlog(raiz, meta) {
   let s = ler(raiz, 'blog/index.html');
   if (s.includes(`href="/blog/${meta.slug}/"`)) return;
   const abre = '<div class="blog-grid">\n';
-  s = trocarUmaVez(s, abre, abre + cardHtml(meta), 'blog/index.html');
+  s = trocarUmaVez(s, abre, abre + cardHtml(meta, raiz), 'blog/index.html');
   gravar(raiz, 'blog/index.html', s);
 }
 
