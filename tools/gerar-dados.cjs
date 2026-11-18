@@ -65,6 +65,8 @@ function montar(html) {
   h = trocar(h, 'DADOS-6X1', tabela6x1(Esc));
   h = trocar(h, 'DADOS-QDU', tabelaQuinto(Q));
   h = trocar(h, 'DADOS-LIQUIDO', tabelaLiquido(RC));
+  // PJ × CLT: faturamento de empate (modelo em tools/pj-clt-empate.cjs, o mesmo do guia do blog)
+  h = trocar(h, 'DADOS-PJCLT', require(path.join(raiz, 'tools/pj-clt-empate.cjs')).tabelaHTML(RC));
   return h;
 }
 
