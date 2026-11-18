@@ -17,10 +17,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // 18/11/2026: tudo desligado até a aprovação do AdSense (decisão para a nova revisão). Para religar uma recomendação, troque ativo por true.
   var AFILIADOS = [
     {
       id: 'tazzin-contato',
-      ativo: true,
+      ativo: false,
       proprio: true,
       rede: 'Tazzin (serviço do autor do site)',
       titulo: 'Controle da sua empresa ainda vive em planilhas?',
@@ -71,7 +72,7 @@
     },
     {
       id: 'livros-clt-financas',
-      ativo: true,
+      ativo: false,
       rede: 'Lomadee (Editora Foco)',
       titulo: 'Quer estudar direito do trabalho a fundo?',
       texto: 'Livros jurídicos e de legislação para estudar a CLT com calma e consultar sempre que precisar.',
@@ -81,7 +82,7 @@
     },
     {
       id: 'motorista-pedagio',
-      ativo: true,
+      ativo: false,
       rede: 'Lomadee (Sem Parar)',
       titulo: 'Roda muito de carro para trabalhar?',
       texto: 'Pedágio e estacionamento pesam no lucro de quem dirige todo dia. A tag automática pode ajudar a controlar esses gastos.',

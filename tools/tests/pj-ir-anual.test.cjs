@@ -72,11 +72,11 @@ test('PJ vs CLT: vale-transporte só conta o que passa de 6% do salário', () =>
 });
 
 test('PJ vs CLT: MEI paga o DAS fixo', () => {
-  // DAS: 5% × 1.621 = 81,05 (parte do INSS). Sem a contribuição extra de autônomo:
-  // 5.000 − 81,05 = 4.918,95
+  // DAS do MEI de serviços: 5% × 1.621 = 81,05 (INSS) + 5,00 (ISS) = 86,05. Sem a contribuição extra de autônomo:
+  // 5.000 − 86,05 = 4.913,95
   const r = E.pjVsClt({ salarioCLT: 3000, remuneracaoPJ: 5000, regimePJ: 'mei', inssAutoVoluntario: false });
-  assert.equal(r.impostoPJ, 81.05);
-  assert.equal(r.pjLiquido, 4918.95);
+  assert.equal(r.impostoPJ, 86.05);
+  assert.equal(r.pjLiquido, 4913.95);
 });
 
 function irAnual(v) {

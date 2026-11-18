@@ -9,7 +9,7 @@ const nz = (x) => (isFinite(x) && !isNaN(x) ? x : 0);
 // Constantes 2026 — Portaria Interministerial MPS/MF nº 13/2026 e Decreto nº 12.797/2025
 const SALARIO_MINIMO = 1621.00;
 const INSS_TETO = 8475.55;
-const MEI_DAS = 81.05; // 5% do salário mínimo 2026
+const MEI_DAS = 86.05; // 2026: 5% do salário mínimo (R$ 81,05 de INSS) + R$ 5,00 de ISS (MEI prestador de serviços)
 
 const INSS_TAB = [
   { ate: 1621.00, aliq: 0.075, deduz: 0 },
@@ -1047,7 +1047,7 @@ const CALCS = {
         r.diasINSS>0?`INSS: ${r.diasINSS} dias × ${BRL(r.valorBenef/30)}/dia = ${BRL(r.valorINSS)}.`:'Menos de 15 dias — tudo pelo empregador.',
       ].filter(Boolean);
       const total = r2(r.valorEmpregador + r.valorINSS);
-      return { proventos:[], descontos:[], blocos, destaque:{label:'Total do período', sub:`${r.afastamento} dias de afastamento`, valor:total}, memoria, avisos:[{tipo:'warn', txt:'Cálculo simplificado baseado no último salário. O INSS calcula pelo salário-de-benefício real (média dos 80% maiores salários de contribuição). Consulte o INSS para um valor preciso.'}] };
+      return { proventos:[], descontos:[], blocos, destaque:{label:'Total do período', sub:`${r.afastamento} dias de afastamento`, valor:total}, memoria, avisos:[{tipo:'warn', txt:'Cálculo simplificado baseado no último salário. O INSS calcula pelo salário-de-benefício real (média de todos os salários de contribuição desde julho de 1994). Consulte o INSS para um valor preciso.'}] };
     }
   },
 
