@@ -162,6 +162,11 @@ function publicar(raiz, meta) {
   if (fs.existsSync(path.join(destino, 'index.html'))) throw new Error(`blog/${meta.slug}/ já existe; não vou sobrescrever`);
   fs.mkdirSync(destino, { recursive: true });
   fs.copyFileSync(path.join(origem, 'index.html'), path.join(destino, 'index.html'));
+  // imagem de compartilhamento própria (assets/img/blog/<slug>.jpg), se existir
+  if (fs.existsSync(path.join(raiz, 'assets', 'img', 'blog', `${meta.slug}.jpg`))) {
+    const arq = path.join(destino, 'index.html');
+    fs.writeFileSync(arq, fs.readFileSync(arq, 'utf8').split(`${SITE}/assets/img/og-image.png`).join(`${SITE}/assets/img/blog/${meta.slug}.jpg`));
+  }
   noSitemap(raiz, meta);
   noBlog(raiz, meta);
   noMapa(raiz, meta);
