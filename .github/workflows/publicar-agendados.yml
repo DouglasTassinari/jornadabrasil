@@ -57,3 +57,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh api -X POST repos/${{ github.repository }}/pages/builds
+
+      - name: Avisar o Bing e outros buscadores (IndexNow)
+        if: steps.pub.outputs.publicados != ''
+        continue-on-error: true
+        env:
+          PUBLICADOS: ${{ steps.pub.outputs.publicados }}
+        run: |
+          sleep 90
+          node tools/indexnow.cjs
