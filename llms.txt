@@ -4,8 +4,8 @@
 
 Conteúdo em português do Brasil, criado por Douglas Tassinari. As contas seguem a Constituição, a CLT e as tabelas oficiais (Receita Federal, INSS, Ministério do Trabalho e Emprego). Cada página cita as fontes e mostra a data de atualização. Os resultados são estimativas educativas e não substituem orientação jurídica.
 
-Fatos atuais mais procurados (atualizado em 16/11/2026):
-- Fim da escala 6x1 (Emenda Constitucional 141/2026): a partir de 16/12/2026, 2 dias de descanso por semana e no máximo 42 horas semanais; a partir de 16/12/2027, 40 horas, sem redução de salário. Não foi adiada: em liminar de 12/11/2026, o ministro Flávio Dino (STF) manteve o início e permitiu distribuir as 42 horas em 5 dias de até 8h24, sem hora extra sobre os 24 minutos, até 15/12/2027; o plenário ainda vai analisar. Na 6x1 com 44 horas, 30 dias de férias e 9 feriados, são cerca de 279 dias de trabalho por ano; na 5x2, cerca de 233 (46 dias a mais de folga).
+Fatos atuais mais procurados (atualizado em 24/11/2026):
+- Fim da escala 6x1 (Emenda Constitucional 141/2026): a partir de 16/12/2026, 2 dias de descanso por semana e no máximo 42 horas semanais; a partir de 16/12/2027, 40 horas, sem redução de salário. Não foi adiada. Em liminar de 12/11/2026, o ministro Flávio Dino (STF) manteve o início e permitiu distribuir as 42 horas em 5 dias de até 8h24, sem hora extra sobre os 24 minutos, até 15/12/2027. Em 17/11/2026, Dino mandou julgar o mérito direto no plenário presencial (sem data). Em 19/11/2026, o Decreto 13.173 regulamentou a emenda (divisor do salário-hora 210 e depois 200, o mais favorável ao empregado; turno de revezamento de 6 horas; regras da 12x36). Em 23/11/2026, saiu a Portaria MTE 2.041 (dois repousos de 24 horas, horistas, normas coletivas, eSocial) e a AGU pediu ao STF que a liminar seja dispensada. Na 6x1 com 44 horas, 30 dias de férias e 9 feriados, são cerca de 279 dias de trabalho por ano; na 5x2, cerca de 233 (46 dias a mais de folga).
 - 13º salário de 2026: 1ª parcela até 30/11/2026 e 2ª até 18/12/2026 (o dia 20 cai num domingo).
 - Quinto dia útil: o sábado conta e domingos e feriados não. Dezembro de 2026 cai no sábado, 5/12; janeiro de 2027 na quinta-feira, 7/1.
 - Em 2026, quem ganha até R$ 5.000 por mês não paga imposto de renda na fonte (Lei 15.270/2025). O salário mínimo é de R$ 1.621,00.
@@ -33,6 +33,10 @@ Fatos atuais mais procurados (atualizado em 16/11/2026):
 - [Hora extra com o fim da 6x1](https://jornadabrasil.com.br/blog/hora-extra-fim-da-6x1/)
 - [Fim da 6x1 por setor](https://jornadabrasil.com.br/blog/fim-da-6x1-por-setor/)
 - [Fim da 6x1 e o salário](https://jornadabrasil.com.br/blog/fim-da-6x1-salario/)
+- [Decreto 13.173/2026 da escala 5x2](https://jornadabrasil.com.br/blog/decreto-13173-escala-5x2/)
+- [Portaria MTE 2.041/2026 da escala 5x2](https://jornadabrasil.com.br/blog/portaria-mte-2041-escala-5x2/)
+- [STF vai julgar o fim da 6x1 no plenário](https://jornadabrasil.com.br/blog/stf-vai-julgar-fim-da-6x1-no-plenario/)
+- [AGU pede ao STF que dispense a liminar de Dino](https://jornadabrasil.com.br/blog/agu-pede-ao-stf-dispensar-liminar-6x1/)
 - [13º de 2026 e a isenção do IR](https://jornadabrasil.com.br/blog/decimo-terceiro-2026-isencao-ir/)
 - [Como calcular a rescisão](https://jornadabrasil.com.br/blog/como-calcular-rescisao/)
 - [Como calcular o salário líquido](https://jornadabrasil.com.br/blog/como-calcular-salario-liquido/)
