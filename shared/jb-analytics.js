@@ -39,19 +39,8 @@
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, 'clarity', 'script', CLARITY_ID);
   }
+  // Só o consent.js chama o loader, e apenas com consentimento de análise.
   window._jbLoadAnalytics = _jbLoadAnalytics;
-
-  ['click', 'touchstart', 'keydown', 'scroll'].forEach(function (e) {
-    document.addEventListener(e, function h() {
-      _jbLoadAnalytics();
-      document.removeEventListener(e, h);
-    }, { once: true, passive: true });
-  });
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(function () { setTimeout(_jbLoadAnalytics, 1); }, { timeout: 3000 });
-  } else {
-    setTimeout(_jbLoadAnalytics, 3000);
-  }
 
   window.jbTrack = function (name, params) {
     try { gtag('event', name, params || {}); } catch (e) {}

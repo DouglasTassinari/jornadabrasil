@@ -40,10 +40,9 @@ const RC = {
         'analytics_storage': analytics
       });
     }
-    // Carrega scripts de terceiros conforme consentimento
+    // Análise só carrega com consentimento; anúncios mudam de tipo
     if (prefs.analytics) RC.loadAnalytics();
-    if (prefs.ads) RC.loadAds();
-    else RC.pauseAds();
+    RC.setAds(!!prefs.ads);
   },
 
   acceptAll: function() {
@@ -116,10 +115,10 @@ const RC = {
           </label>
           <label style="display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--border,#E3E8EF);border-radius:10px;cursor:pointer">
             <div>
-              <div style="font-weight:600;font-size:.9rem">Publicidade</div>
-              <div style="font-size:.78rem;color:var(--text-2,#4B5563)">Google AdSense — anúncios relevantes para você</div>
+              <div style="font-weight:600;font-size:.9rem">Publicidade personalizada</div>
+              <div style="font-size:.78rem;color:var(--text-2,#4B5563)">Google AdSense — desligado, os anúncios aparecem sem personalização</div>
             </div>
-            <input id="rc-toggle-ads" type="checkbox" style="width:18px;height:18px;accent-color:#155E75" aria-label="Cookies de publicidade">
+            <input id="rc-toggle-ads" type="checkbox" style="width:18px;height:18px;accent-color:#155E75" aria-label="Publicidade personalizada">
           </label>
         </div>
         <div style="display:flex;gap:10px;justify-content:flex-end">
@@ -147,16 +146,14 @@ const RC = {
     }
   },
 
-  // O código do AdSense fica no <head> das páginas com conteúdo, com as
-  // requisições de anúncio pausadas (pauseAdRequests=1) até o consentimento.
-  // Páginas sem o código (conta, erro, redirecionamentos) não exibem anúncios.
-  loadAds: function() {
+  // O código do AdSense fica no <head> das páginas com conteúdo. Todos veem
+  // anúncios; sem consentimento de publicidade eles são pedidos sem
+  // personalização. Páginas sem o código (conta, erro) não exibem anúncios.
+  setAds: function(personalizados) {
     if (!document.querySelector('script[src*="adsbygoogle.js"]')) return;
-    (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
-  },
-
-  pauseAds: function() {
-    (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;
+    const ads = (window.adsbygoogle = window.adsbygoogle || []);
+    ads.requestNonPersonalizedAds = personalizados ? 0 : 1;
+    ads.pauseAdRequests = 0;
   }
 };
 
